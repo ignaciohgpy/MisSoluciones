@@ -49,11 +49,15 @@ def mipkt(request,pkt):
 	
     try:
         problemas=ProblemaPaq.objects.select_related("paqueteID","problemaID").filter(paqueteID__paqueteCod=pkt)
-        paquetesUsuES=UsuarioPaq.objects.filter(usuario=request.user.id,paqueteMio=paquetes.objects.get(paqueteCod=pkt)).values()[0]
-        paquetesUsu=UsuarioPaq.objects.filter(usuario=request.user.id)
-        perfiles=perfil.objects.all()
-        qr=QRPago.objects.all()
-        return render(request,"verMiPKT.html" ,{'perfiles':perfiles,'pkt':pkt,'qr':qr,'mispaquetes':paquetesUsu,'activo':paquetesUsuES['activo'],'problemas':problemas})
+        if len(problemas)==0:
+             print("hdhhdhdh")
+             redirect('index')
+        else:
+            paquetesUsuES=UsuarioPaq.objects.filter(usuario=request.user.id,paqueteMio=paquetes.objects.get(paqueteCod=pkt)).values()[0]
+            paquetesUsu=UsuarioPaq.objects.filter(usuario=request.user.id)
+            perfiles=perfil.objects.all()
+            qr=QRPago.objects.all()
+            return render(request,"verMiPKT.html" ,{'perfiles':perfiles,'pkt':pkt,'qr':qr,'mispaquetes':paquetesUsu,'activo':paquetesUsuES['activo'],'problemas':problemas})
     except:
         redirect('index')
 

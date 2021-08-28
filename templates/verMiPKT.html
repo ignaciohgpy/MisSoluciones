@@ -44,13 +44,19 @@
 {% if activo %}
 
 {% else %}
+   <div class="container">
+    <div class="row">
     <form  action="{% url 'TranferMovil' pkt request.user.id %}" method="POST">{% csrf_token %}
-    <button  id="submit" type="submit" value="Pagar" class="btn btn-primary" >Pagar</button>
-    <button  onclick="Borra()" type="botton" class="btn btn-danger" >Borrar</button>
+    <div class="col">
+        <button  id="submit" type="submit" value="Pagar" class="btn btn-primary" >Pagar</button>
+</div>
     </form>
-
-
+    <div class="col">
+ <button  onclick="Borra()" type="botton" class="btn btn-danger" >Borrar</button>
+</div>
   {% endif %}
+  </div>
+  </div>
   </div>
  
 </div>
