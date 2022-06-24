@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
 from Soluciones.models import libros, soluciones, paquetes,tematicas,UsuarioPaq,QRPago,perfil,ProblemaPaq,User, comentarios
-from Soluciones.forms import Formulario
+from Soluciones.forms import Formulario,FormularioPaquetes
 from django.db.models import Count,Sum
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -376,6 +376,24 @@ def cargar(request): #agrega libros
            data["formulario"]=formulario
    return render(request, "cargar.html" ,data)
 
+def formaPket(request):
+    formularioPaquetes=FormularioPaquetes()
+    data=completarPlantilla(request)
+    data['formularioPaquetes']=formularioPaquetes
+    data['paquetes']=paquetes.objects.all()
+    if request.method == "POST":
+        form = FormularioPaquetes(request.POST)
+        if form.is_valid():
+
+            post = form.save(commit=False)
+            post.paqueteCreador = request.user
+            post.save()
+
+    else:
+        form = FormularioPaquetes()
+
+
+    return render(request,"FormaPKT.html",data)
 def Creacodigo(request):
     Cod1=request.user.username
     Cod2=request.user.first_name
