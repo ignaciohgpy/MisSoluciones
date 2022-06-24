@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'Soluciones',
-    'qr_code',
+
     
 ]
 
@@ -125,7 +125,10 @@ LOGIN_REDIRECT_URL='/index/'
 LOGOUT_REDIRECT_URL='/index/'
 STATIC_URL = '/static/'
 MEDIA_URL = '/problemas/'
-MEDIA_ROOT =os.path.join(BASE_DIR, 'problemas/')
-
+MEDIA_ROOT =os.path.join(BASE_DIR, 'problemas')
+#MEDIA_ROOT =os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+
+
 

@@ -1,0 +1,169 @@
+{% extends "index.html" %}
+
+{% block contenido %}
+    <br>
+<div class="container-fluid">
+<div class="row">
+<div class="col-xs-4">
+        <label for="paquetes">Paquetes disponibles:</label>
+        <select class="form-control" id="paquetes" onchange="BuscaT()">
+        {% for i in paquetes %}
+        <option>{{i.paqueteCod}}</option>
+        {% endfor %}
+        </select>
+<br>
+    <button type="button" onclick="creaCodigo()" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Crear paquetes</button>
+    <button type="button" class="btn btn-primary">Borrar un paquete</button>
+ </div>
+
+    <div class="col-xs-4">
+        <label for="libros">Selecione un libro:</label>
+        <select class="form-control" id="libros" onchange="BuscaT()">
+        {% for i in libros %}
+        <option>{{i.titulo}}</option>
+        {% endfor %}
+        </select>
+    <label for="temas">Selecione un tema :</label>
+    <select multiple class="form-control" id="temas" onclick="BuscaP()">
+           </select>
+
+    <label for="temas">Seleccione los problemas que conformaran el paquete :</label>
+    <select multiple class="form-control" id="problemas">
+           </select>
+<br>
+    <button type="button"  onclick="muestraproblemas()" class="btn btn-primary">Primary</button>
+    <button type="button" class="btn btn-primary">Primary</button>
+ </div>
+
+ <div class="col-xs-4">
+ <div id="figuras" >
+ </div>
+ </div>
+</div>
+   </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+      </div>
+      <div class="modal-body">
+
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ formularioPaquetes.as_ul }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+ function BuscaT(){
+     var libro=$("#libros option:selected").val();
+       $.ajax({
+        url: '{% url "BuscaTemasxLibros" %}',
+        data: {
+          'libro': libro
+
+        },
+        dataType: 'json',
+        success: function (data) {
+            $("#temas").empty()
+          for(var ii=0;ii<data.temas.length;ii++){
+              $("#temas").append('<option value='+data.temas[ii]+'>'+data.temas[ii]+'</option>');
+          }
+	}
+
+}
+          )}
+
+
+ </script>
+
+
+<script>
+ function BuscaP(){
+     var libro=$("#libros option:selected").val();
+     var temas=$("#temas option:selected").text();
+
+
+       $.ajax({
+        url: '{% url "BuscaProblemas" %}',
+        data: {
+          'libro': libro,
+          'temas': temas
+        },
+        dataType: 'json',
+        success: function (data) {
+
+          for(var ii=0;ii<data.problemas.length;ii++){
+              $("#problemas").append('<option value='+data.problemas[ii]+'>'+data.problemas[ii]+'</option>');
+          }
+	}
+
+}
+          )}
+ </script>
+    <script>
+ function muestraproblemas(){
+
+     var text = $("#problemas").val() || [];
+
+       $.ajax({
+        url: '{% url "Muestraproblemas" %}',
+        data: {
+          'problemas': text
+
+        },
+        dataType: 'json',
+        success: function (data) {
+
+
+        $("#figuras").empty()
+          for(var ii=0;ii<data.temas.length;ii++){
+            var img = document.createElement('img');
+            img.src = data.temas[ii];
+            document.getElementById('figuras').appendChild(img);
+          }
+	}
+
+}
+          )}
+
+
+ </script>
+     <script>
+ function creaCodigo(){
+
+
+
+       $.ajax({
+        url: '{% url "Creacodigo" %}',
+        data: {
+
+
+        },
+        dataType: 'json',
+        success: function (data) {
+                $("#id_paqueteCod").val(data.codigo)
+
+
+	}
+
+}
+          )}
+
+
+ </script>
+{% endblock %}

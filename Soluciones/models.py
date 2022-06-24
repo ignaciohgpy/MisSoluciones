@@ -20,35 +20,45 @@ class libros(models.Model):
     def __str__(self):
         return self.titulo
 
+class comentarios(models.Model):
+    comentario=models.TextField(max_length = 50)
+    correo=models.EmailField()
+    tipo=models.CharField(max_length = 50)
+    usuario=models.ForeignKey(User, on_delete=models.CASCADE)
+    nombre=models.CharField(null=True,max_length = 50)
 class solucionadores(models.Model):
     solucionadorNombre=models.CharField(max_length = 50)
     solucionadorPais=models.CharField(max_length = 50)
     solucionadorID=models.AutoField(primary_key=True)
-    solucionadorPais=models.CharField(max_length = 50)
+    solucionadorPais=models.CharField(null=True,max_length = 50)
     def __str__(self):
         return self.solucionadorNombre
 
 class paquetes(models.Model):
     paqueteID=models.AutoField(primary_key=True)
-    paqueteCod=models.CharField(max_length=50, null=True)
-    paqueteCant=models.IntegerField(null=True)
-    paquetePrecio=models.IntegerField(null=True)
-    paqueteDias=models.IntegerField(null=True)
-    paqueteDescr=models.CharField(max_length=50, null=True)
-    paquetePerfil=models.ForeignKey(perfil, on_delete=models.CASCADE,null=True)
+    paqueteCod=models.CharField(max_length=50, null=True,verbose_name="Codigo del paquete")
+    paqueteCant=models.IntegerField(null=True, verbose_name="Cantidad de problemas que contiene")
+    paquetePrecio=models.IntegerField(null=True,verbose_name="Precio")
+    paqueteDias=models.IntegerField(null=True,verbose_name="Dias que estará activo")
+    paqueteDescr=models.CharField(max_length=50, null=True,verbose_name="Descripción")
+    paquetePerfil=models.ForeignKey(perfil, on_delete=models.CASCADE,null=True,verbose_name="Perfil")
+    paqueteFecha=models.DateField(auto_now_add=True,null=True)
+    paqueteCreador=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+
 
     def __str__(self):
         return '%s'%(self.paqueteCod)
 
 class soluciones(models.Model):
-    problemaNumero=models.CharField(max_length=50, null=True)
-    problemaProblema=models.ImageField(upload_to='problemas', null=True)
+    problemaNumero=models.CharField(max_length=50, null=True,verbose_name="Numero del Problema")
+    problemaProblema=models.ImageField(upload_to='problemas', null=True,verbose_name="Figura del problema")
     problemaID=models.AutoField(primary_key=True)
-    problemaLibro=models.ForeignKey(libros, on_delete=models.CASCADE,null=True)
-    problemaSolucion=models.FileField(upload_to='soluciones',null=True)
-    problemaVideo=models.FileField(upload_to='videos',null=True)
-    problemaSolucionadoPor=models.ForeignKey(solucionadores, on_delete=models.CASCADE,null=True)
-    problemaTema=models.ForeignKey(tematicas, on_delete=models.CASCADE,null=True)
+    problemaLibro=models.ForeignKey(libros, on_delete=models.CASCADE,null=True,verbose_name="Libro o Guia")
+    problemaSolucion=models.FileField(upload_to='soluciones',null=True,verbose_name="Documento de solución")
+    problemaVideo=models.FileField(upload_to='videos',null=True,verbose_name="Audio de explicación")
+    problemaSolucionadoPor=models.ForeignKey(solucionadores, on_delete=models.CASCADE,null=True,verbose_name="Solucionado por")
+    problemaTema=models.ForeignKey(tematicas, on_delete=models.CASCADE,null=True,verbose_name="Tema del problema")
+    problemaFecha=models.DateField(auto_now_add=True,)
     def __str__(self):
         return '%s%s'%(self.problemaNumero,self.problemaProblema)
 

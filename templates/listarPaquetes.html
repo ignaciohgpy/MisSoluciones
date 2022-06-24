@@ -1,0 +1,69 @@
+{% extends 'index.html' %}
+{% block contenido %}
+   <div class="container">
+  <h2>Paquetes disponibles de {{perfil}}</h2>
+
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th>Codigo del Paquete</th>
+        <th>Problemas resueltos</th>
+        <th>Precio</th>
+        <th>Dias Activo</th>
+        <th>Descripción</th>
+        {% if request.user.is_authenticated%}
+        <th>Adquirir</th>
+        {%endif%}
+        <th>Ver</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for u in paquetes %}
+      <tr>
+        <td>{{ u.paqueteCod }}</td>
+        <td>{{u.paqueteCant  }}</td>
+        <td>{{u.paquetePrecio  }}</td>
+        <th>{{u.paqueteDias }}</th>
+        <td>{{ u.paqueteDescr}}</td>
+        {% if request.user.is_authenticated %}
+        <td><button id={{u.paqueteCod}} class="btn btn-warning" onclick="compraPKT(this)">Comprar</button></td>
+        {%endif%}
+        <td><a   class="btn btn-success " href="{% url 'verPaquetes' u.paqueteCod %}" >Ver</a></td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+<script>
+    function compraPKT(b) {
+
+      var codigo=b.id;
+
+       $.ajax({
+        url: '{% url "compraPKT" %}',
+        data: {
+
+          'codigo': codigo,
+
+
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data) {
+          if (data.tipo==1) {
+              alertify.error(data.sms);
+            }
+          else {
+			  alertify.error(data.sms);
+			  }
+
+}
+          }
+        })
+      }
+
+
+  </script>
+
+{% endblock %}

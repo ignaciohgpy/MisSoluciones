@@ -1,13 +1,13 @@
 {% extends 'index.html' %}
 
-<div>
+
 {% block contenido %}
 <form name = "form" enctype="multipart/form-data" method = "POST" action="" enctype="multipart/form-data"> {% csrf_token %}
-      <div class="card">
+     <div class="card bg-info" style="width:70%;margin-left: auto;margin-right: auto">
 
           <center><h4>Nuevo Problema</h4></center>
           <hr>
-         <dif class="card-body">
+         <dif class="card-body bg-dark text-white">
 <table>
           {{formulario.as_table}}
 </table>
@@ -21,9 +21,6 @@
           </div>
 
  </form>
- {% endblock contenido %}
-</div>
+{% endblock contenido %}
 
-{% block lateral %}
 
-        {% endblock %}

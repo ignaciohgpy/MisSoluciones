@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% block contenido %}
+<h1>Libros</h1>
+<p>
+
+   <a href="{% url "CreaLibro" %}">Agregar libro</a>
+
+</p>
+<table class="table table-dark table-hover">
+ <thead>
+      <tr>
+        <th>Titulo del libro</th>
+        <th>Editar titulo</th>
+        <th>Borrar</th>
+        <th>Modificar</th>
+
+      </tr>
+    </thead>
+<tbody>
+{% for libro in object_list %}
+    <tr>
+        <td>{{ libro.titulo }}</td>
+        <td><button  class="btn btn-warning" onclick="">Editar</button></td>
+        <td><button  class="btn btn-warning" onclick=""><a href="{% url 'borralibros' libro.id %}">Borrar</a></button></td>
+        <td><button  class="btn btn-warning" onclick="">Modificar</button></td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

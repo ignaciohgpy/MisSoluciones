@@ -1,562 +1,455 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 {% load static %}
-
-<head>
+<html lang="en">
+ <head>
 {% load bootstrap4 %}
 {% bootstrap_css %}
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Mis soluciones</title>
-<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="screen" />
-<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-<link href="{% static 'css/alertify.core.css' %}" rel="stylesheet" type="text/css" media="screen" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>KNOWLEDGE</title>
+        <link href="{% static 'descarga/ccs.css' %}" rel="stylesheet" type="text/css"  />
+        <link href="{% static 'descarga/fuente.css' %}" rel="stylesheet" type="text/css"  />
+        <link href="{% static 'fonts/sb-bistro/sb-bistro.css' %}" rel="stylesheet" type="text/css"  />
+        <link href="{% static 'fonts/font-awesome/font-awesome.css' %}" rel="stylesheet" type="text/css"  />
 
-<link href="{% static 'css/alertify.default.css' %}" rel="stylesheet" type="text/css" media="screen" />
-<link href="{% static 'css/jquerysctipttop.css' %}" rel="stylesheet" type="text/css">
-<link  href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-<link  href="{% static 'css/hummingbird-treeview.css' %}" rel="stylesheet" type="text/css">
-<link  href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css">
-<link  href="{% static 'css/datatales.min.css' %}" rel="stylesheet" type="text/css">
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/datatables.min.js' %}"></script>
-<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/alertify.js' %}"></script>
-<script src="{% static 'js/jquery-3.5.1.js' %}"></script>
-<script src="{% static 'js/hummingbird-treeview.js' %}"></script>
-</head>
-<body>
-<style>
-    .header {
-  background: url('{% static 'images/img04441.jpg' %}') ;
-  background-size:  contain;
-  min-height: 20vh;
-}
- #menu .current_page_item a {
-	height: 26px;
-	background: url('{% static 'images/img02.jpg' %}') repeat-x left top;
-	color: #343738;
-}
-</style>
-<style>
-    body {
-    background:#eee;
-    margin:0;
-    padding:0;
-}
-.example {
-    background:#fff url(../images/clouds-in-blue-sky.jpg);
-    width:770px;
-    height:570px;
-    border:1px #000 solid;
-    margin:20px auto;
-    padding:15px;
-    border-radius:0px;
-    -moz-border-radius:0px;
-    -webkit-border-radius:0px;
-}
+        <link href="{% static 'packages/bootstrap/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'packages/o2system-ui/o2system-ui.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'packages/owl-carousel/owl-carousel.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'packages/cloudzoom/cloudzoom.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'packages/thumbelina/thumbelina.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        
+        <!--link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <!--link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <!--link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <!--link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" type="text/css" media="all"  /-->
+        <!--link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" type="text/css" media="all"  /-->
+        
 
+        
 
-/* main menu styles */
-#nav {
-    display:inline-block;
-    width:100%;
-    margin:0px auto;
-    padding:0;
-    background: rgba(0, 0, 0, 0.36) url(../images/bg.png) repeat-x 0 -110px;
+ </head>
 
-    border-radius:0px; /*some css3*/
-    -moz-border-radius:0px;
-    -webkit-border-radius:0px;
-    box-shadow:0 2px 2px rgba(0,0,0, .5);
-    -moz-box-shadow:0 2px 2px rgba(0,0,0, .5);
-    -webkit-box-shadow:0 2px 2px rgba(0,0,0, .5);
-}
-#nav li {
-    margin:10px;
-    float:left;
-    position:relative;
-    list-style:none;
-}
-#nav a {
-    font-weight:bold;
-    color:#e7e5e5;
-    text-decoration:none;
-    display:block;
-    padding:8px 20px;
+  <body>
+    <div class="page-header">
+      <!--=============== Navbar ===============-->
+      <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
+        <div class="container">
+              <!-- Navbar Brand -->
+              <a href="{% url 'index' %}" class="navbar-brand">
+              <img src="{% static 'img/logo/logo.png' %}" alt="">
+              </a>
+               <!-- Toggle Button -->
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarcollapse">
+              <!-- Navbar Menu -->
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="shop.html" class="nav-link">Comprar</a>
+                </li>
 
-    border-radius:10px; /*some css3*/
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-    text-shadow:0 2px 2px rgba(0,0,0, .7);
-}
-
-/* selected menu element */
-#nav .current a, #nav li:hover > a {
-    background:#7788aa url(../images/bg.png) repeat-x 0 -20px;
-    color:#000;
-    border-top:1px solid #f8f8f8;
-
-    box-shadow:0 2px 2px rgba(0,0,0, .7); /*some css3*/
-    -moz-box-shadow:0 2px 2px rgba(0,0,0, .7);
-    -webkit-box-shadow:0 2px 2px rgba(0,0,0, .7);
-    text-shadow:0 2px 2px rgba(255,255,255, 0.7);
-}
-
-/* sublevels */
-#nav ul li:hover a, #nav li:hover li a {
-    background:none;
-    border:none;
-    color:#000;
-
-}
-ul{ z-index: 999; }
-#nav ul li a:hover {
-    background:#335599 url(../images/bg.png) repeat-x 0 -100px;
-    color:#fff;
-
-    border-radius:10px; /*some css3*/
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-    text-shadow:0 2px 2px rgba(0,0,0, 0.7);
-}
-
-#nav ul li:first-child > a {
-    -moz-border-radius-topleft:10px; /*some css3*/
-    -moz-border-radius-topright:10px;
-    -webkit-border-top-left-radius:10px;
-    -webkit-border-top-right-radius:10px;
-}
-#nav ul li:last-child > a {
-    -moz-border-radius-bottomleft:10px; /*some css3*/
-    -moz-border-radius-bottomright:10px;
-    -webkit-border-bottom-left-radius:10px;
-    -webkit-border-bottom-right-radius:10px;
-}
-
-/* drop down */
-#nav li:hover > ul {
-    opacity:1;
-    visibility:visible;
-}
-#nav ul {
-    opacity:0;
-    visibility:hidden;
-    padding:0;
-    width:175px;
-    position:absolute;
-    background:#aabbcc url(../images/bg.png) repeat-x 0 0;
-    border:1px solid #7788aa;
-
-    border-radius:10px; /*some css3*/
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-    box-shadow:0 2px 2px rgba(0,0,0, .5);
-    -moz-box-shadow:0 2px 2px rgba(0,0,0, .5);
-    -webkit-box-shadow:0 2px 2px rgba(0,0,0, .5);
-
-    -moz-transition:opacity .25s linear, visibility .1s linear .1s;
-    -webkit-transition:opacity .25s linear, visibility .1s linear .1s;
-    -o-transition:opacity .25s linear, visibility .1s linear .1s;
-    transition:opacity .25s linear, visibility .1s linear .1s;
-}
-#nav ul li {
-    float:none;
-    margin:0;
-}
-#nav ul a {
-    font-weight:normal;
-    text-shadow:0 2px 2px rgba(255,255,255, 0.7);
-}
-#nav ul ul {
-    left:160px;
-    top:0px;
-}
-</style>
-<div id="wrapper">
-	<div class="header">
-
-	</div>
-	<hr />
-{% block menu %}
-	<div><!-- end #logo -->
-<div>
-    <ul id="nav">
-        <li class="current"><a href="{% url 'index' %}">Inicio</a></li>
-        {% if request.user.is_staff %}
-        <li><a href="">Acciones</a>
-            <ul>
-
-                <li ><a style="{{admin}}"   href="{% url 'cargar' %}" >Agregar Problema</a></li>
-                <li><a style="{{admin}}"    href="{% url 'ListaL' %}">Gestionar Libro</a>
-
-            </ul>
-        </li>
-        {%endif%}
-    {% if request.user.is_authenticated %}
-        <li><a  data-toggle="modal" data-target="#myModal"  href="">Gestión de Paquetes</a>
-
-        </li>
-    {% endif %}
-
-    {% if request.user.is_authenticated %}
-        <li><a href="{% url 'consultar' %}">Consultas</a>
-        <li><a href="">Mis paquetes</a>
-        <ul>
-             {% for i in mispaquetes %}
-                 {% if i.activo %}
-                <li><a href="{% url 'mipkt' i.paqueteMio %}">{{i.paqueteMio}}-Comprado</a></li>
-
-                 {% else %}
-        <li><a href="{% url 'mipkt' i.paqueteMio %}">{{i.paqueteMio}}-Pendiente de Pago</a></li>
-        {% endif %}
-       {% endfor %}
-
-       </ul>
-
-       {% endif %}
-</li>
-
-        <li><a href="{% url 'acerca' %}">Acerca de:</a></li>
-        {% if request.user.is_authenticated %}
-        <li><a href="">Bienvenido {{request.user.username}}</a></li>
-        <li><a href="{% url 'logout' %}">Salir</a></li>
-        {%else%}
-        <li><a href="{% url 'login' %}">Autentificate</a></li>
-        <li><a href="{% url 'registrarse' %}">Registrate</a></li>
-        {% endif %}
-
-    </ul>
-</div>
-        </div>
-{% endblock  %}
-	<!-- end #header -->
-	<!-- end #header-wrapper -->
-	<div id="page">
-	<div id="page-bgtop">
-		<div id="content">
-            {% block contenido %}
-			<div class="post">
-				<h2 class="title"><a href="#">Bienvenido a Mis soluciones</a></h2>
-				<div class="entry">
-			    <p>Gracias por visitar este sitio, la intención del mismo es ayudar a los estudiantes de ingeniería en distintas disciplinas, sobre todo en las que traen varias dificultades.</p>
-			    <p>Podrán ver soluciones y escuchar explicaciones sobre muchos problemas, trataré de utilizar un lenguaje simple, explicando cada detalle oculto en el mismo, y que regularmente pasamos por alto cuando nos disponemos a resolver estos. </p>
-                <p>No necesariamente serán Mis soluciones, podrás brindar las tuyas, que si son diferentes a las existentes y certificadas por algún especialista, serán publicadas. </p>
-
-                </div>
-			</div>
-
-			</div>
-			{% endblock contenido %}
-		<!-- end #content -->
-<style>
-.text {
-  font-size:16px;
-  font-family:helvetica;
-  font-weight:bold;
-  color:#FFFF00;
-  
-}
-.parpadea {
-  
-  animation-name: parpadeo;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-
-  -webkit-animation-name:parpadeo;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-}
-
-@-moz-keyframes parpadeo{  
-  0% { opacity: 1.0; }
-  50% { opacity: 0.0; }
-  100% { opacity: 1.0; }
-}
-
-@-webkit-keyframes parpadeo {  
-  0% { opacity: 1.0; }
-  50% { opacity: 0.0; }
-   100% { opacity: 1.0; }
-}
-
-@keyframes parpadeo {  
-  0% { opacity: 1.0; }
-   50% { opacity: 0.0; }
-  100% { opacity: 1.0; }
-}
-
-</style>  {% block lateral %}
-
-<div  class="card text-white bg-info mb-3" style="width: 240px;">
-  <div class="card-header"><b><h5 style="font-weight:bold;
-  color:#FFFFCC;">Aclara tus dudas:</h5> </b></div>
-  <div class="card-body">
-       <p class="card-text"><b> Te ofrecemos {{total}} problemas resueltos de los libros siguientes:</b></p>
-      <ul>
-                        {% for j,g in libros.items %}
-						<li style="{{admin}}"><a style="font-weight:bold;
-  color:#FFFFCC;" href="{% url 'problema' j %}" >{{j}} ({{g}})</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Mis Paquetes</a>
+                   
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for u in mispaquetes %}
+                        <a class="dropdown-item" href="{% url 'mipkt' u.paqueteMio %}">{{u.paqueteMio}}</a>
                         {% endfor %}
+                        <a class="dropdown-item" href="">Test</a>
+                        
+                    </div>
+                    
 
-					</ul>
-				</li>
-                <a class="parpadea text" href="{% url 'ejemplo' %}">Ejemplos de problemas</a>
-			</ul>
-  </div>
-</div>
-        {% endblock %}
-</div>
-
-		<!-- end #sidebar -->
-		<div style="clear: both;">&nbsp;</div>
-	</div>
-
-	</div>
-
-{%block pie %}
-	<div id="footer-bgcontent">
-
-	<div id="footer">
-		<p>Copyright  2021 Mis Soluciones.cu All rights reserved. Diseñado por: Ignacio Hernandez.</p>
-	</div>
-	</div>
-{% endblock pie%}
-</div>
-
-<div class="modal" id="myModal" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-      <h4 class="modal-title" style="color:red">Configuración de Paquete</h4>
-
+                </li>
+                {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'Milogin' %}" class="nav-link">Registro</a>
+                </li>
+                {% endif%}
+                {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'Milogin' %}" class="nav-link">Login</a>
+                
+                </li>
+                {% endif%}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="avatar-header"><img src="{% static 'img/logo/avatar.jpg' %}"></div> {{ request.user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="transaction.html">Historial de Compra</a>
+                        <a class="dropdown-item" href="setting.html">Mi Perfil</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Sallir</a>
+                    </div>
+                  </li>
+                <li class="nav-item dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary">5</span>
+                    </a>
+                    <div class="dropdown-menu shopping-cart">
+                        <ul>
+                            <li>
+                                <div class="drop-title">Compras</div>
+                            </li>
+                            <li>
+                                <div class="shopping-cart-list">
+                                    <div class="media">
+                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
+                                      
+                                        <div class="media-body">
+                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
+                                            <p class="price">
+                                                <span class="discount text-muted">Rp. 700.000</span>
+                                                <span>Rp. 100.000</span>
+                                            </p>
+                                            <p class="text-muted">Qty: 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="media">
+                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
+                                        <div class="media-body">
+                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
+                                            <p class="price">
+                                                <span class="discount text-muted">Rp. 700.000</span>
+                                                <span>Rp. 100.000</span>
+                                            </p>
+                                            <p class="text-muted">Qty: 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="media">
+                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
+                                        <div class="media-body">
+                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
+                                            <p class="price">
+                                                <span class="discount text-muted">Rp. 700.000</span>
+                                                <span>Rp. 100.000</span>
+                                            </p>
+                                            <p class="text-muted">Qty: 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="media">
+                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
+                                        <div class="media-body">
+                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
+                                            <p class="price">
+                                                <span class="discount text-muted">Rp. 700.000</span>
+                                                <span>Rp. 100.000</span>
+                                            </p>
+                                            <p class="text-muted">Qty: 1</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="drop-title d-flex justify-content-between">
+                                    <span>Total:</span>
+                                    <span class="text-primary"><strong>Rp. 2000.000</strong></span>
+                                </div>
+                            </li>
+                            <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
+                                <a href="cart.html" class="btn btn-secondary">View Cart</a>
+                                <a href="checkout.html" class="btn btn-primary">Checkout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
       </div>
-
-      <!-- Modal body -->
-<div class="modal-body">
-        <form role="form">
- <div class="form-group">
- <label for="Perfil">Selecione su perfil</label>
- <select  onchange="getPaquetes()" id="Perfil" class="form-control">
-  <option>Elija un Perfil</option>
-  {% for k in perfiles %}
-   <option> {{ k.nombrePerfil }}</option>
-  {% endfor %}
-  </select>
- <br>
-
- <label for="Pktes">Selecione un paquete</label>
- <select  onchange="getDetalles()" id="Pktes" class="form-control">
-
-
- </select>
-     <br>
- <label for="name" style="color:red">Detalles del paquete</label>
- <div id="detalles" class="container">
-<h8 id="codigo" style="font-weight:bold;
-  color:blue;">
-</h8><br>
-<h8 id="cantidad" style="font-weight:bold;
-  color:blue;">
-</h8><br>
-<h8 id="precio" style="font-weight:bold;
-  color:blue;">
-</h8><br>
-<h8 id="descri" style="font-weight:bold;
-  color:blue;">
-</h8><br>
-<h8 id="dias" style="font-weight:bold;
-  color:blue;">
-</h8><br>
-</div>
-
-</div>
-
-
-</form>
-  </div>
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button  onclick="compraPKT()" type="botton" class="btn btn-primary" data-dismiss="modal">Enviar</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-      </div>
-
+     </nav>
     </div>
+
+    <div id="page-content" class="page-content">
+      <div class="banner">
+          <div class="jumbotron jumbotron-video text-center bg-dark mb-0 rounded-0">
+              <video width="100%" preload="auto" loop autoplay muted>
+                  <source src="{% static 'media/explore.mp4' %}" type='video/mp4' />
+                  <source src="{% static 'media/explore.webm' %}" type='video/webm' />
+              </video>
+              <div class="container">
+                  <h1 class="pt-5">
+                      LA PRIMERA REGLA DEL ÉXITO<br>
+                      ES UNA BUENA PREPARACIÓN.
+                  </h1>
+                  <p class="lead">
+                      24 hrs a tu servicio.
+                  </p>
+
+                  <div class="row">
+                      <div class="col-md-4">
+                          <div class="card border-0 text-center">
+                              <div class="card-icon">
+                                  <div class="card-icon-i">
+                                      <i class="fa fa-shopping-basket"></i>
+                                  </div>
+                              </div>
+                              <div class="card-body">
+                                  <h4 class="card-title">
+                                      Comprar Paquetes
+                                  </h4>
+                                  <p class="card-text">
+                                      De una manera simple podrá obtener paquetes de ejercicios resueltos por un colectivo de profesionales.
+                                  </p>
+
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-4">
+                          <div class="card border-0 text-center">
+                              <div class="card-icon">
+                                  <div class="card-icon-i">
+                                      <i class="fas fa-leaf"></i>
+                                  </div>
+                              </div>
+                              <div class="card-body">
+                                  <h4 class="card-title">
+                                      Libros 
+                                  </h4>
+                                  <p class="card-text">
+                                      Contamos con una Biblioteca extendida sobre las materias de Física, Matemática y Circuitos Eléctricos.
+                                  </p>
+
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-4">
+                          <div class="card border-0 text-center">
+                              <div class="card-icon">
+                                  <div class="card-icon-i">
+                                      <i class="fa fa-truck"></i>
+                                  </div>
+                              </div>
+                              <div class="card-body">
+                                  <h4 class="card-title">
+                                      Comunidad Cientifíca
+                                  </h4>
+                                  <p class="card-text">
+                                      Puede formar del Claustro de profesores de este proyecto innovador, sus soluciones pueden ser vista por toda la Comunidad.
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {% block contenido %}
+      {% endblock %}
+      <section id="why">
+          <h2 class="title">NUESTROS SERVICIOS</h2>
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-4">
+                      <div class="card border-0 text-center gray-bg">
+                          <div class="card-icon">
+                              <div class="card-icon-i text-success">
+                                  <i class="fas fa-leaf"></i>
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <h4 class="card-title">
+                                  EJERICIOS RESUELTOS
+                              </h4>
+                              <p class="card-text">
+                                  Ofrecemos nuestras soluciones de manera que nuestros clientes comprendan a fondo la temática abordada, utilizando videos, audios y materiales didácticos que multipliquen y desarrollen el conocimiento encontrado. 
+                              </p>
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="card border-0 text-center gray-bg">
+                          <div class="card-icon">
+                              <div class="card-icon-i text-success">
+                                  <i class="fa fa-question"></i>
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <h4 class="card-title">
+                                  CONSULTAS ONLINE
+                              </h4>
+                              <p class="card-text">
+                                  Se permite hacer la reserva de tiempo para cada tema en específico con cualquiera de los profesores del departamento, las reservas se realizan con 3 días de antelación.
+                              </p>
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="card border-0 text-center gray-bg">
+                          <div class="card-icon">
+                              <div class="card-icon-i text-success">
+                                  <i class="fas fa-smile"></i>
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <h4 class="card-title">
+                                  ENCUENTROS DE CONOCIMIENTOS
+                              </h4>
+                              <p class="card-text">
+                                  Los encuentros de conocimientos se realizan vía online los días previstos por los moderadores, se ofrecen premios metálicos a las soluciones ganadoras.
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-12 mt-5 text-center">
+                      <a href="shop.html" class="btn btn-primary btn-lg">COMPRAR AHORA</a>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <section id="categories" class="pb-0 gray-bg">
+          <h2 class="title">Categorías</h2>
+          <div class="landing-categories owl-carousel">
+              <div class="item">
+                  <div class="card rounded-0 border-0 text-center">
+                      <img src="{% static 'img/libros-auto.jpg' %}">
+                                           
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                          <!-- <h4 class="card-title">Vegetables</h4> -->
+                          <a href="shop.html" class="btn btn-primary btn-lg">LIBROS</a>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="card rounded-0 border-0 text-center">
+                      <img src="{% static 'img/fisica-auto.jpg' %}">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                          <!-- <h4 class="card-title">Fruits</h4> -->
+                          <a href="{% url 'LPaquetes' perfiles.0.nombrePerfil %}" class="btn btn-primary btn-lg">PROBLEMAS FÍSICA</a>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="card rounded-0 border-0 text-center">
+                      <img src="{% static 'img/matematica-auto.jpg' %}">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                          <!-- <h4 class="card-title">Meats</h4> -->
+                          <a href="{% url 'LPaquetes' perfiles.2.nombrePerfil %}" class="btn btn-primary btn-lg">PROBLEMAS MATEMÁTICA</a>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="card rounded-0 border-0 text-center">
+                      <img src="{% static 'img/circuitos-auto.jpg' %}">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                          <!-- <h4 class="card-title">Fishes</h4> -->
+                          <a href="{% url 'LPaquetes' perfiles.1.nombrePerfil %}" class="btn btn-primary btn-lg">CIRCUITOS ELÉCTICOS</a>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="card rounded-0 border-0 text-center">
+                    <img src="{% static 'img/FC-auto.jpg' %}">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                          <!-- <h4 class="card-title">Frozen Foods</h4> -->
+                          <a href="{% url 'LPaquetes' perfiles.0.nombrePerfil %}" class="btn btn-primary btn-lg">FUNDAMENTOS DE LAS COMUNICACIONES</a>
+                      </div>
+                  </div>
+              </div>
+              <div class="item">
+                  <div class="card rounded-0 border-0 text-center">
+                      <img src="{% static 'img/PackagesGraphic.jpg' %}">
+                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
+                          <!-- <h4 class="card-title">Package</h4> -->
+                          <a href="shop.html" class="btn btn-primary btn-lg">PAQUETESjjjhjhh</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
   </div>
-</div>
-<script>
+  <footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Nuestro trabajo</h5>
+                <p>Mis Soluciones es un proyecto organizado de estructuras que está fuertemente arraigado de valores, sentimientos y actitudes con una finalidad conocida por todos: la gestión del proceso enseñanza-aprendizaje</p>
+            </div>
+            <div class="col-md-3">
+                <h5>Links</h5>
+                <ul>
+                    <li>
+                        <a href="{% url 'team' %}">Equipo de Trabajo</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contactanos' %}">Contactanos</a>
+                        </li>
+                    <li>
+                        <a href="{% url 'promociones' %}">Promociones</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">Como es nuestro trabajo</a>
+                    </li>
+                    <li>
+                        <a href="terms.html">Términos</a>
+                    </li>
+                    <li>
+                        <a href="privacy.html">Política de Privacidad</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                 <h5>Contacto</h5>
+                 <ul>
+                     <li>
+                        <a href="tel:+620892738334"><i class="fa fa-phone"></i>+53 51593881</a>
+                    </li>
+                    <li>
+                        <a href="mailto:hello@domain.com"><i class="fa fa-envelope"></i>missoluciones@gmail.com</a>
+                     </li>
+                 </ul>
 
- function codigoPKT(objeto) {
-       var codigoPKT=objeto.id;
-       $(".modal-body").attr("id",codigoPKT);
-      
-     }
-
-
-</script>
-
-<script>
-    function notificacion(){
-
-				alertify.alert("<b>Blog Reaccion Estudio</b> probando Alertify");
-			}
-
-</script>
-
-<script>
-    function compraPKT() {
-
-      var tema=$("#Pktes").val();
-      
-       $.ajax({
-        url: '{% url "compraPKT" %}',
-        data: {
-
-          'tema': tema,
-          
-
-        },
-        dataType: 'json',
-        success: function (data) {
-          if (data) {
-          if (data.tipo==1) {
-              alertify.error(data.sms);
-            }
-          else {
-			  alertify.error(data.sms);
-			  }
-
-}
-          }
-        })
-      }
-
-
-  </script>
-<script>
-    function getProblemas() {
-	   var body = document.getElementById("divtable");	
-       var tabla = document.createElement("table");
-       var tblBody = document.createElement("tbody");
-       var problemas = ($("#Pktes").find('option:selected').attr('id'));
-       $("#divtable").html("");
-       
-
-       $.ajax({
-        url: '{% url "getProblemas" %}',
-        data: {
-          'problemas': problemas
-
-        },
-        dataType: 'json',
-        success: function (data) {
-		var h=JSON.parse(data.problemas);
-		 for(var i=0;i<h.length;i++){
-			 var fila = document.createElement("tr");
-         for(var ii=0;ii<h[i].length;ii++)
-         {
-			 var celda = document.createElement("td");
-             var textoCelda = document.createTextNode(h[i][ii]);
-             celda.appendChild(textoCelda);
-             fila.appendChild(celda);
-
-			 }
-			 tblBody.appendChild(fila);
-			 
-			 }
-			 tabla.appendChild(tblBody);
-			 tabla.setAttribute('class', 'table table-dark table-striped')
-			 body.appendChild(tabla);
-	}  
- 
-}
-        
+                 <h5>Síguenos</h5>
+                 <ul class="social">
+                     <li>
+                        <a href="javascript:void(0)" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                     </li>
+                     <li>
+                        <a href="javascript:void(0)" target="_blank"><i class="fab fa-instagram"></i></a>
+                     </li>
+                     <li>
+                        <a href="javascript:void(0)" target="_blank"><i class="fab fa-youtube"></i></a>
+                     </li>
+                 </ul>
+            </div>
+            <div class="col-md-3">
+                 <h5>Get Our App</h5>
+                 <ul class="mb-0">
+                     <li class="download-app">
+                         <a href="#"><img src="{% static 'img/playstore.png' %}"></a>
+                      </li>
+                     <li style="height: 200px">
+                         <div class="mockup">
+                             <img src="{% static 'img/mockup.png' %}">
+                         </div>
+                     </li>
+                 </ul>
+            </div>
+        </div>
+    </div>
+    <p class="copyright">&copy; 2022 Soluciones | Estudio Online. Derechos Reservados.</p>
+</footer>
 
 
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-migrate.js' %}"></script>
+    <script type="text/javascript" src="{% static 'packages/bootstrap/libraries/popper.js' %}"></script>
+    <script type="text/javascript" src="{% static 'packages/bootstrap/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'packages/o2system-ui/o2system-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'packages/owl-carousel/owl-carousel.js' %}"></script>
+    <script type="text/javascript" src="{% static 'packages/cloudzoom/cloudzoom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'packages/thumbelina/thumbelina.js' %}"></script>
+    <script type="text/javascript" src="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/theme.js' %}"></script>
 
-          )}
-        
- </script>
-<script>
-    function getPaquetes() {
+  </body>
+  </html>
 
-       var perfil = $('#Perfil').val()
-
-       $.ajax({
-        url: '{% url "getPaquetes" %}',
-        data: {
-          'perfil': perfil
-
-        },
-        dataType: 'json',
-        success: function (data) {
-            $("#Pktes").empty();
-            $("#Pktes").append('<option value="">Selecione un Paquete</option>');
-            for(var ii=0;ii<data.paquetes.length;ii++)
-         {
-			$("#Pktes").append('<option value='+data.paquetes[ii]+'>'+data.paquetes[ii]+'</option>');
-
-			 }
-	}
-
-}
-
-
-
-
-          )}
-
- </script>
-<script>
-    function getDetalles() {
-
-       var paquete=$("#Pktes option:selected").val();
-      
-       
-       $.ajax({
-        url: '{% url "getDetalles" %}',
-        data: {
-          'CodigoP': paquete
-
-        },
-        dataType: 'json',
-        success: function (data) {
-            $('#codigo').text("Código del Paquete: "+data.paquetes[1])
-            $('#cantidad').text("Cantidad de Problemas: "+data.paquetes[2])
-            $('#precio').text("Valor del Paquete "+data.paquetes[3]+ " CUP")
-            $('#dias').text("Válido por "+data.paquetes[4]+" días")
-            $('#descri').text("Descripción "+data.paquetes[5])
-	}
-
-}
-
-
-
-
-          )}
-
- </script>
-<script>
-
- function codigoPKT1(objeto) {
-       var codigoPKT=objeto.id;
-       alert(codigoPKT)
-
-     }
-
-
-</script>
-
-{% bootstrap_javascript jquery='full' %}
-</body>
- <script>
-$(document).ready(function(){
-  $('[data-toggle="popover"]').popover();
-});
-</script>
-
-</html>

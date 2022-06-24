@@ -1,0 +1,8 @@
+{% extends 'index.html' %}
+{% block contenido %}
+
+<form method="post">{% csrf_token %}
+¿Estás seguro que deseas borrar la tarea "{{ libros.titulo }}"?
+<input type="submit" value="Aceptar" />
+</form>
+{% endblock %}

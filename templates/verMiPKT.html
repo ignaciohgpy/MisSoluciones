@@ -1,198 +1,49 @@
 {% extends 'index.html' %}
-{% load static %}
-{% load qr_code %}
+{% block contenido %}
 
-<div class="container">
-    {% block contenido %}
+  <div class="col-4">
+  <div class="card-header card text-white bg-dark" >Soluciones del paquete {{pkt}}</div>
+  <div class="card-body bg-secondary" >
+
+  <label for="sel1">Seleccione un problema e ira a la solución:</label>
+      <hr>
+<div style="overflow:scroll;height:150px;width:280px;border:solid" class="bg-secondary text-white">
+    <ul>
+    {%for j in problemas%}
+    <li><a class="text-white" href="{% url 'versolucion'  j.problemaID.problemaLibro j.problemaID.problemaNumero %}">{{j.problemaID.problemaNumero}}/{{j.problemaID.problemaLibro}}</a></li>
+
+      {% endfor %}
+        </ul>
+</div>
+      <br>
+      <hr>
+      <label>Haga click sobre la figura e ira a la solución:</label>
+
+</div>
+  <div class="card-footer text-white bg-dark">Mis Soluciones</div>
+</div>
+
+   <div class="col-8">
   <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     {% for u in problemas %}
       {% if forloop.first %}
     <div class="carousel-item active">
-        <img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="...">
+        <a href="{% url 'versolucion' u.problemaID.problemaLibro  u.problemaID.problemaNumero %}"><img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="..."></a>
     </div>
       {% endif %}
        <div class="carousel-item">
-        <img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="...">
+        <a href="{% url 'versolucion' u.problemaID.problemaLibro  u.problemaID.problemaNumero %}"><img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="..."></a>
     </div>
    {%endfor%}
    
 </div>
-
 </div>
-
-</div>
-{% endblock %}
-{% block lateral %}
-<div  class="card text-white bg-info mb-3" style="width: 240px;">
-  <div class="card-header">Tu paquete </div>
-  <div class="card-body">
-    <h5 class="card-title">No te hace falta mas</h5>
-    <p class="card-text"><b> Problemas resueltos de los libros:</b></p>
-
-<label for="sel1">Seleccione el problema a visualizar:</label>
-    {% if activo  %}
-      <select class="form-control" name="menu" onchange="location=this.value;">
-    {% else  %}
-       <select class="form-control" name="menu" >
-    {% endif %}
-      {% for j in problemas %}
-        <option value="{% url 'versolucion'  j.problemaID.problemaLibro  j.problemaID.problemaNumero %}">{{ j.problemaID.problemaNumero }}</option>
-      {% endfor %}
-      </select>
-  <br>
-{% if activo %}
-
-{% else %}
-   <div class="container">
-    <div class="row">
-    <form  action="{% url 'TranferMovil' pkt request.user.id %}" method="POST">{% csrf_token %}
-    <div class="col">
-        <button  id="submit" type="submit" value="Pagar" class="btn btn-primary" >Pagar</button>
-</div>
-    </form>
-    <div class="col">
- <button  onclick="Borra()" type="botton" class="btn btn-danger" >Borrar</button>
-</div>
-  {% endif %}
-  </div>
-  </div>
-  </div>
- 
-</div>
-<div class="container">
-
-  <!-- The Modal -->
-  <div class="modal fade" id="myModalPago">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Efectuar el Pago a favor de:</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-        </div>
-
-        <!-- Modal body -->
-        <div id='qr' class="modal-body">
-
-
-
-
-       <div class="form-group">
-
-
-</div>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-
-          <button  id='jj' onclick="Pagar()" type="botton" class="btn btn-primary" >
-               <span id="espera" class=""></span>Enviar</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</div>
-<script>
-    function Pagar(){
-      var usuario = '{{ request.user.id }}';
-      var paquete = '{{ pkt }}';
-      $('#espera').attr('class', 'spinner-border spinner-border-sm');
-
-      $.ajax({
-        url: '{% url "TranferMovil" %}',
-        data: {
-          'usuario': usuario,
-          'paquete':paquete
-        },
-        dataType: 'json',
-        success: function (data) {
-           if (data) {
-          if (data.verificado=='ok') {
-
-             $('#espera').attr('class', '');
-             $('#usr[type="text"]').val('');
-              alertify.error(data.sms);
-            }
-          else {alertify.alert(data.sms);}
-
-}
-          }
-        })
-      }
-
-
-</script>
-<script>
-    function Borra(){
-      var paquete = '{{ pkt }}';
-      $.ajax({
-        url: '{% url "borraPa" %}',
-        data: {
-          'paquete': paquete
-        },
-        dataType: 'json',
-        success: function (data) {
-           if (data) {
-          if (data.tipo==1) {
-              alertify.error(data.sms);
-            }
-          else {alertify.alert(data.sms);}
-
-}
-          }
-        })
-      }
-
-
-</script>
-<script>
-    function ver(){
-      var libro = ($("#sel1").find('option:selected').attr('id'))
-      var problema = ($("#sel1").val())
-
-       $.ajax({
-        url: '{% url "verPKT" %}'
-        data: {
-
-          'libro': libro,
-          'problema':problema
-
-        },
-        dataType: 'json',
-        success: function (data) {
-          if (data) {
-          if (data.tipo==1) {
-              alertify.error(data.sms);
-            }
-          else {alertify.alert(data.sms);}
-
-}
-          }
-        })
-      }
-
-
-</script>
-
-
-
-
-
-  </div>
-
-</div>
-
 </div>
 
 
-{% endblock %}
+
+{%endblock%}
+
 
 

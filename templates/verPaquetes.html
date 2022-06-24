@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+
+
+<div class="container" >
+    {% block contenido %}
+        <div class="row">
+  <div id="Mostrar" class="carousel slide col-6" data-ride="carousel">
+  <div class="carousel-inner" >
+    {% for u in paquetes %}
+      {% if forloop.first %}
+    <div class="carousel-item active" style="height:50%">
+       <img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="...">
+    </div>
+      {% endif %}
+       <div class="carousel-item" >
+        <img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="...">
+    </div>
+   {%endfor%}
+  </div>
+
+</div>
+
+</div>
+</div>
+{% endblock %}
