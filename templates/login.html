@@ -4,7 +4,7 @@
  <head>
 {% load bootstrap4 %}
 {% bootstrap_css %}
-<title>Soluciones | Estudio Online</title>
+<title>MisSoluciones Auntentificate</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{% static 'descarga/ccs.css' %}" rel="stylesheet" type="text/css"  />
@@ -49,9 +49,18 @@
                     <p class="lead">
                        Un excelente colectivo puede ayudarlo a encontrar la solución
                     </p>
+             {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 
                     <div class="card card-login mb-5">
                         <div class="card-body">
+                            <ul class="messages">
                             <form class="form-horizontal" action="" method="post"> {% csrf_token %}
                                 <div class="form-group row mt-3">
                                     <div class="col-md-12">
@@ -73,7 +82,7 @@
                             </form>
 							<div class="form-group row text-center mt-4">
 								<div class="col-md-12">
-									<a  href="{% url 'registro1' %}" class="btn btn-primary btn-block text-uppercase">Registrarse</a>
+									<a  href="{% url 'registro' %}" class="btn btn-primary btn-block text-uppercase">Registrarse</a>
 									
 								</div>
 							</div>

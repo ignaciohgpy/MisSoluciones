@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>KNOWLEDGE</title>
+        <title>MisSoluciones</title>
         <link href="{% static 'descarga/ccs.css' %}" rel="stylesheet" type="text/css"  />
         <link href="{% static 'descarga/fuente.css' %}" rel="stylesheet" type="text/css"  />
         <link href="{% static 'fonts/sb-bistro/sb-bistro.css' %}" rel="stylesheet" type="text/css"  />
@@ -52,17 +52,20 @@
                 <li class="nav-item">
                     <a href="shop.html" class="nav-link">Comprar</a>
                 </li>
-
+                {% if au %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Mis Paquetes</a>
-                   
+
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
                         {% for u in mispaquetes %}
                         <a class="dropdown-item" href="{% url 'mipkt' u.paqueteMio %}">{{u.paqueteMio}}</a>
                         {% endfor %}
-                        <a class="dropdown-item" href="">Test</a>
+
                         
                     </div>
+
+                    {% endif %}
                     
 
                 </li>

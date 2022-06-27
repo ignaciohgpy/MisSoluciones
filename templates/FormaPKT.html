@@ -32,7 +32,7 @@
            </select>
 <br>
     <button type="button"  onclick="muestraproblemas()" class="btn btn-primary">Primary</button>
-    <button type="button" class="btn btn-primary">Primary</button>
+    <button type="button" onclick="poblarPaquetes()" class="btn btn-primary">Poblar paquete</button>
  </div>
 
  <div class="col-xs-4">
@@ -165,5 +165,27 @@
           )}
 
 
+ </script>
+<script>
+function poblarPaquetes(){
+        var problemas=$("#problemas").val() || [];
+        var paquete=$("#paquetes").val() ;
+
+       $.ajax({
+        url: '{% url "poblarPaquetes" %}',
+        data: {
+            'problemas':problemas,
+            'paquete':paquete,
+
+        },
+        dataType: 'json',
+        success: function (data) {
+               alert(data.t)
+
+
+	}
+
+}
+          )}
  </script>
 {% endblock %}

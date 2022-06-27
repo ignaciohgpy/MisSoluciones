@@ -34,7 +34,7 @@ urlpatterns = [
     path('contac/', contac, name="contac"), #OK
     path('formaPKT/', formaPket, name="formaPket"), #OK
     path('versolucion/<str:libro>/<str:numero>', versolucion,name='versolucion'), #OK
-    path('registro1', registro1, name="registro1"), #OK
+
     path('login/', Milogin, name="Milogin"), #OK
     path('logout/', logout, name="logout"), #OK
     path('registrarse/', registro, name="registro"), #OK
@@ -48,6 +48,7 @@ urlpatterns = [
     path('busquedas/', consultar,name="consultar"), #OK
     path('verMiPKT/<str:pkt>', mipkt,name="mipkt"), #OK
     path('ajax/borraPa/', borraPa, name='borraPa'),
+    path('ajax/poblarPaquetes/', poblarPaquetes, name='poblarPaquetes'),
     path('ajax/getPaquetes/', getPaquetes, name='getPaquetes'),
     path('ajax/BuscaTemasxLibros/', BuscaTemasxLibros, name='BuscaTemasxLibros'),
     path('ajax/BuscaProblemas/', BuscaProblemas, name='BuscaProblemas'),

@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.forms import UserCreationForm
-from .forms import CustomUserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
 from Soluciones.models import libros, soluciones, paquetes,tematicas,UsuarioPaq,QRPago,perfil,ProblemaPaq,User, comentarios
-from Soluciones.forms import Formulario,FormularioPaquetes
+from Soluciones.forms import Formulario,FormularioPaquetes,NewUserForm
 from django.db.models import Count,Sum
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -73,8 +73,9 @@ def team(request):
     data=completarPlantilla(request)
     return render(request, 'team.html',data)
 def promociones(request):
+    data = completarPlantilla(request)
     m = 3;
-    return render(request, 'promociones.html')
+    return render(request, 'promociones.html',data)
 
 
 def LPaquetes(request,miperfil): #OK
@@ -89,55 +90,43 @@ def LPaquetes(request,miperfil): #OK
 def Milogin(request):
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        if username and password:
-            username = username.strip()            # Eliminar espacios y líneas nuevas
-            password = password.strip()
-            try:
-                user = User.objects.get(username=username)
-            except:
-                message = 'El nombre de usuario no existe'
-                return render(request, 'login.html', {"message": message})
-            if user.check_password(password):
-                request.session['id'] = user.id    # Registrar que el usuario ha iniciado sesión
-                user = authenticate(username=username, password=password)
-
-                request.session['id'] = user.id
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
                 login(request, user)
-                perfiles=perfil.objects.all()
-                return render(request,'index.html',{'novalida':'none','perfiles':perfiles})
+                messages.info(request, f"You are now logged in as {username}")
+                form = AuthenticationForm()
+                configuracion=completarPlantilla(request)
+
+
+                return redirect('/')
             else:
-                message = 'contraseña incorrecta'
-                return render(request, 'login.html', {'novalida':'si',"message": message})
-    return render(request, 'login.html', {'novalida':'none','estilo':"display:none"})
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request,"login.html",{"form": form})
 
 def logout(request): #OK
     request.session.flush()
     return redirect('/')
 
 def registro(request): #OK
-   #if request.session.get('id') != None:  # Regístrese solo cuando no haya iniciado sesión
-        #return redirect('/')
-   if request.method == 'POST':
-        username = request.POST.get('username')
-        clave = request.POST.get('password')
-        correo=request.POST.get('correo')
-        username = str(username).strip()  # Eliminar espacios y líneas nuevas
-        clave = str(clave).strip()
-        correo=str(correo).strip()
-        if User.objects.filter(username=username).exists():
-            message = 'este nombre de usuario ha sido registrado'
-            return render(request, 'index.html', {"message": message})
-        user = User()
-        user.username = username
+    data={'form':NewUserForm()}
+    if request.method=='POST':
+        formulario=NewUserForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            user=authenticate(username=formulario.cleaned_data['username'],password=formulario.cleaned_data['password1'])
+            login(request,user)
+            return redirect('index')
 
-        user.password=make_password(clave)
-        user.email=correo
-        user.save()
-        #request.session['id'] = user.id   # Registrar que el usuario ha iniciado sesión
-        return redirect('/')
-   return render(request, 'index.html')
+    return render(request, "registro.html", data)
+
+
 def verPaquetes(request,codigo): #ok
     paquetes = ProblemaPaq.objects.select_related('problemaID', 'paqueteID').filter(paqueteID__paqueteCod=codigo)
     paquetesUsu = UsuarioPaq.objects.filter(usuario=request.user.id, vencido=False)
@@ -286,7 +275,7 @@ def index(request):
         libro=libros.objects.get(id=int(u[i]['problemaLibro']))
         orden[libro.titulo]=u[i]['num_books']
 
-    return render(request,"index.html", {'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':orden,'total':total,'estilo':"display:none","pket":pket, "vpaq": vpaq,"temas":temas})
+    return render(request,"index.html", {'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':orden,'total':total,'estilo':"display:none","pket":pket, "vpaq": vpaq,"temas":temas,'au':request.user.is_authenticated})
 
 def completarPlantilla(request):
     paquetesUsu=UsuarioPaq.objects.filter(usuario=request.user.id,vencido=False)
@@ -326,6 +315,15 @@ def contac(request):
     comentarios.objects.create(nombre=nombre,usuario=usuario,correo=correo,tipo=tipo,comentario=comentario)
     data=completarPlantilla(request)
     return render(request,"contactanos.html",data)
+def poblarPaquetes(request):
+    problemas=request.GET.getlist('problemas[]', None)
+    paquete=request.GET.get('paquete', None)
+
+    for u in problemas:
+        ProblemaPaq.objects.create(problemaID=soluciones.objects.get(problemaNumero=u),paqueteID=paquetes.objects.get(paqueteCod=paquete))
+
+    data={'t':problemas}
+    return JsonResponse(data)
 
 def formaPket(request):
     data=completarPlantilla(request)
