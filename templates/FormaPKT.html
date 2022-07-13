@@ -2,9 +2,19 @@
 
 {% block contenido %}
     <br>
-<div class="container-fluid">
-<div class="row">
-<div class="col-xs-4">
+<div  style="height: 20px" class="jumbotron">
+<div style="margin-left:auto;margin-right: auto;">
+  <h5>Bienvenido a la Gestión de Paquetes</h5>
+  <p>El siguiente módulo está reservado solo para el grupo de desarrollo del sitio</p>
+ </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="well well-sm">
+
+                <div class="col-xs-4">
         <label for="paquetes">Paquetes disponibles:</label>
         <select class="form-control" id="paquetes" onchange="BuscaT()">
         {% for i in paquetes %}
@@ -12,29 +22,74 @@
         {% endfor %}
         </select>
 <br>
-    <button type="button" onclick="creaCodigo()" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Crear paquetes</button>
-    <button type="button" class="btn btn-primary">Borrar un paquete</button>
- </div>
+    <button type="button" onclick="creaCodigo()" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Crear Paquete</button>
+    <button type="button" onclick="borrarPaquetes()" class="btn btn-primary">Borrar Paquete</button>
 
     <div class="col-xs-4">
-        <label for="libros">Selecione un libro:</label>
+        <label for="libros">Selecione un Libro:</label>
         <select class="form-control" id="libros" onchange="BuscaT()">
         {% for i in libros %}
         <option>{{i.titulo}}</option>
         {% endfor %}
         </select>
-    <label for="temas">Selecione un tema :</label>
+    <label for="temas">Selecione un Tema :</label>
     <select multiple class="form-control" id="temas" onclick="BuscaP()">
            </select>
 
-    <label for="temas">Seleccione los problemas que conformaran el paquete :</label>
+    <label for="temas">Seleccione los Problemas que formararán parte del paquete:</label>
     <select multiple class="form-control" id="problemas">
            </select>
 <br>
-    <button type="button"  onclick="muestraproblemas()" class="btn btn-primary">Primary</button>
-    <button type="button" onclick="poblarPaquetes()" class="btn btn-primary">Poblar paquete</button>
+    <button type="button"   onclick="muestraproblemas()" data-toggle="modal" data-target="#myModalyy"  class="btn btn-primary">Vista Previa</button>
+    <button type="button" onclick="poblarPaquetes()" class="btn btn-primary">Insertar Problemas</button>
  </div>
+<div id="myModalyy" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+<div id="demo" class="carousel slide" data-ride="carousel">
+
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+  </ul>
+
+  <!-- The slideshow -->
+  <div class="carousel-inner" id="figura1">
+    <div class="product" id="product_0">
+
+
+        </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+
+
+            </div>
  <div class="col-xs-4">
  <div id="figuras" >
  </div>
@@ -50,7 +105,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-
       </div>
       <div class="modal-body">
 
@@ -66,7 +120,18 @@
     </div>
 
   </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
 </div>
+
+
+
+
 
 <script>
  function BuscaT(){
@@ -130,11 +195,14 @@
         success: function (data) {
 
 
-        $("#figuras").empty()
+
+
+          $('#product_0').empty()
           for(var ii=0;ii<data.temas.length;ii++){
             var img = document.createElement('img');
             img.src = data.temas[ii];
-            document.getElementById('figuras').appendChild(img);
+
+            document.getElementById('product_0').appendChild(img);
           }
 	}
 
@@ -181,6 +249,31 @@ function poblarPaquetes(){
         dataType: 'json',
         success: function (data) {
                alert(data.t)
+
+
+	}
+
+}
+          )}
+ </script>
+ <script>
+    function borrarPaquetes(){
+
+        var paquete=$("#paquetes").val() ;
+
+       $.ajax({
+        url: '{% url "borrarPaquetes" %}',
+        data: {
+
+            'paquete':paquete,
+
+        },
+        dataType: 'json',
+        success: function (data) {
+               $("#paquetes").empty()
+               for(var ii=0;ii<data.listapaquetes.length;ii++){
+              $("#paquetes").append('<option value='+data.listapaquetes[ii]+'>'+data.listapaquetes[ii]+'</option>');
+          }
 
 
 	}

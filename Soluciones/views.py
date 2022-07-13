@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+
+
 
 from Soluciones.models import libros, soluciones, paquetes,tematicas,UsuarioPaq,QRPago,perfil,ProblemaPaq,User, comentarios
 from Soluciones.forms import Formulario,FormularioPaquetes,NewUserForm
@@ -19,6 +22,24 @@ from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
 import datetime as fecha
 from django.contrib.auth.decorators import login_required
 import json,threading,time
+from django.core.exceptions import PermissionDenied
+
+def group_required(*group_names,login_url):
+   """Requires user membership in at least one of the groups passed in."""
+
+   def in_groups(u):
+
+       gente = User.objects.filter(groups__name__in=['profesores'])
+       lista = []
+       for i in gente:
+           lista.append(i.id)
+       estas=u.id in lista
+
+       if u.is_authenticated and estas==True:
+
+               return True
+       return False
+   return user_passes_test(in_groups,login_url)
 
 def contactanos(request):
     paquetesUsu=UsuarioPaq.objects.filter(usuario=request.user.id,vencido=False)
@@ -44,7 +65,6 @@ class CreaLibro(CreateView):
         context=super(CreaLibro,self).get_context_data(**kwargs)
         context.update({'novalida':'none'})
         return context
-
 class BorraLibro(DeleteView):
     model = libros
     success_url = reverse_lazy('listalibros')
@@ -134,12 +154,14 @@ def verPaquetes(request,codigo): #ok
     return render(request,"verPaquetes.html" ,{'perfiles':perfiles,'novalida':'none','paquetes':paquetes,'mispaquetes': paquetesUsu ,'estilo':"display:none"})
 @login_required(login_url='/login/') #OK
 def mipkt(request,pkt):
-    print(pkt)
+    request.session["pkt"]=pkt
+
+    perfiles1=perfil.objects.all()
     paquetesUsu = UsuarioPaq.objects.filter(usuario=request.user.id, paqueteMio=paquetes.objects.get(paqueteCod=pkt))
     if len(paquetesUsu) !=0 :
         problemas=ProblemaPaq.objects.select_related("paqueteID","problemaID").filter(paqueteID__paqueteCod=pkt)
         mispaquetes= UsuarioPaq.objects.filter(usuario=request.user.id)
-        return render(request, "verMiPKT.html", {'novalida':'none','pkt': pkt, 'mispaquetes': mispaquetes, 'problemas': problemas,'estilo':"display:none"})
+        return render(request, "verMiPKT.html", {"au":request.user.is_authenticated,"perfiles":perfiles1,'novalida':'none','pkt': pkt, 'mispaquetes': mispaquetes, 'problemas': problemas,'estilo':"display:none"})
     else:
         redirect('index')
 
@@ -190,12 +212,15 @@ def problema(request,libro):
 
 @login_required(login_url='/login/')
 def versolucion(request,libro, numero):
-    print(libro)
-    print(numero)
+
+    dic=completarPlantilla(request)
     id=libros.objects.get(titulo=libro)
     solucion=soluciones.objects.get(problemaLibro=id, problemaNumero=numero)
     mispaquetes=UsuarioPaq.objects.select_related('paqueteMio').filter(usuario=request.user.id)
-    return render(request,"versolucion.html", {'solucion':solucion})
+    dic["solucion"]=solucion
+    dic["pkt"] = request.session["pkt"]
+
+    return render(request,"versolucion.html", dic)
 
 
 
@@ -220,6 +245,16 @@ def compraPKT(request): #OK
     data = {'sms': tema,'tipo':tipo}
     return JsonResponse(data)
 
+def borrarPaquetes(request):
+    paquete=request.GET.get("paquete")
+    paquetes.objects.get(paqueteCod=paquete).delete()
+    Listapaquetes=paquetes.objects.all()
+    lista=[]
+    for y in Listapaquetes:
+        lista.append(y.paqueteCod)
+    sms="hghjjg"
+    data={"listapaquetes":list(lista),"smg":sms}
+    return JsonResponse(data)
 def borraPa(request):
     valor=request.GET.get("paquete")
 
@@ -283,7 +318,7 @@ def completarPlantilla(request):
     vpaq= paquetes.objects.all()
     temas=tematicas.objects.all()
     librosT=libros.objects.all()
-    configura={'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':librosT, "temas":temas}
+    configura={'au':request.user.is_authenticated,'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':librosT, "temas":temas}
     return configura
 def getPaquetes(request):
     perfil=request.GET.get('perfil', None)
@@ -324,9 +359,23 @@ def poblarPaquetes(request):
 
     data={'t':problemas}
     return JsonResponse(data)
-
+#@login_required(login_url='/login/')
+@group_required('profesores',login_url='/login/')
 def formaPket(request):
     data=completarPlantilla(request)
+    formularioPaquetes = FormularioPaquetes()
+    data = completarPlantilla(request)
+    data['formularioPaquetes'] = formularioPaquetes
+    data['paquetes'] = paquetes.objects.all()
+    if request.method == "POST":
+        form = FormularioPaquetes(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.paqueteCreador = request.user
+            post.save()
+
+    else:
+        form = FormularioPaquetes()
     return render(request,"FormaPKT.html",data)
 def BuscaProblemas(request):
     libro=request.GET.get('libro', None)
@@ -374,7 +423,7 @@ def cargar(request): #agrega libros
            data["formulario"]=formulario
    return render(request, "cargar.html" ,data)
 
-def formaPket(request):
+def formaPketNoTrabaja(request):
     formularioPaquetes=FormularioPaquetes()
     data=completarPlantilla(request)
     data['formularioPaquetes']=formularioPaquetes
@@ -402,4 +451,5 @@ def Creacodigo(request):
     codigo=str(Cod1[0].upper())+str(Cod2[0].upper())+str(Cod3[0].upper())+str(fecha1.year)+str(fecha1.month)+str(fecha1.day)+str(fecha1.hour)+str(fecha1.minute)
     data= {'codigo':codigo}
     return JsonResponse(data)
+
 

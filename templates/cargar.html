@@ -2,13 +2,21 @@
 
 
 {% block contenido %}
+
+<div  style="height: 20px" class="jumbotron">
+<div style="margin-left:auto;margin-right: auto;">
+  <h5>Bienvenido a la Gestión de Soluciones</h5>
+  <p>El siguiente módulo está reservado solo para el grupo de desarrollo del sitio</p>
+ </div>
+</div>
+
 <form name = "form" enctype="multipart/form-data" method = "POST" action="" enctype="multipart/form-data"> {% csrf_token %}
-     <div class="card bg-info" style="width:70%;margin-left: auto;margin-right: auto">
+     <div class="card bg-info" style="width:70%;margin-left: auto;margin-right: auto; background:#D8D8D8">
 
           <center><h4>Nuevo Problema</h4></center>
-          <hr>
-         <dif class="card-body bg-dark text-white">
-<table>
+
+         <dif class="card-body  text-white" style="background:#D8D8D8">
+<table class="table" style="background:#CCEEFF">
           {{formulario.as_table}}
 </table>
      <dif class="d-flex justify-content-end">

@@ -1,20 +1,10 @@
-{% load static %}
-<head>
-{% load bootstrap4 %}
-{% bootstrap_css %}
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Mis soluciones</title>
-<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="screen" />
-<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-</head>
-<body style="background-color: rgba(0, 0, 0, 0.13)">
-<div class="container" >
+{% extends 'index.html' %}
+{% block contenido %}
+
+
  <br>
 <div>
-       <button type="button" class="btn btn-primary hBack">Volver</button>
+       <button type="button" class="btn btn-primary hBack"><a href="{%url 'mipkt' pkt %}">Volver</a></button>
     </div>
 <br>
 
@@ -48,7 +38,7 @@
     e.preventDefault();
     window.history.back();
 });</script>
-</body>
+{% endblock %}
 
 
 

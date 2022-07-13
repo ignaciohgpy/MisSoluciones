@@ -129,6 +129,22 @@ MEDIA_ROOT =os.path.join(BASE_DIR, 'problemas')
 #MEDIA_ROOT =os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'misoluciones22@yandex.ru'
+EMAIL_HOST_PASSWORD = 'Tamara2022'
+#RECIPIENT_ADDRESS = env('ignaciohg2021@gmail.com')
+
+
+
+
 
 
 

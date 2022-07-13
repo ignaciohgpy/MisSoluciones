@@ -1,44 +1,17 @@
-
+<!DOCTYPE html>
+{% extends "index.html" %}
 {% load static %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-<link href="{% static 'css/jquery.dataTables.min.css' %}" rel="stylesheet" type="text/css"  />
-<link href="{% static 'css/fixedHeader.dataTables.min.css' %}" rel="stylesheet" type="text/css" />
-<link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css" media="screen" />
-<link href="{% static 'css/footer.css' %}" rel="stylesheet" />
- <body style="background-color: #C5C7D0">
+{% block contenido %}
+ <body>
+ <div class="data-table-area mg-b-15">
 
-
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" style="background-image: url('{% static 'images/physical.jpg' %}">
-                    <div class="container-fluid">
-
-
-
-    </button>
-                        <a href="{% url 'index' %}"><button class="btn btn-primary bg-transparent text-danger" id="inicio">Inicio</button></a>
-
-
-  </div>
-
-
-                </nav>
-                <!-- Page content-->
-
-
-
-<br>
-<div class="container">
-
-<table class="table-hover" id="example11"  style="width:80%;height: 60%; background-color: #aaaaaa">
+<table id="table" data-toggle="table"  data-search="true" data-show-columns="true"                                         >
         <thead>
             <tr>
-                <th>Numero</th>
-                <th>Libro</th>
-                <th>Tema</th>
-                <th>Solucionado</th>
+                <th data-field="numero" data-editable="true">Número</th>
+                <th data-field="libro" data-editable="true">Libro</th>
+                <th data-field="tema" data-editable="true">Tema</th>
+                <th data-field="id" data-editable="true">Solucionado</th>
 
             </tr>
         </thead>
@@ -46,10 +19,10 @@
             {% for u in data %}
 
             <tr>
-                <td ><h6>{{ u.problemaNumero }}</h6></td>
-                <td ><h6>{{ u.problemaLibro }}</h6></td>
-                <td><h6>{{ u.problemaTema }}</h6></td>
-                <td><h6>{{ u.problemaSolucionadoPor }}</h6></td>
+                <td >{{ u.problemaNumero }}</td>
+                <td >{{ u.problemaLibro }}</td>
+                <td>{{ u.problemaTema }}</td>
+                <td>{{ u.problemaSolucionadoPor }}</td>
 
             </tr>
             {% endfor %}
@@ -65,37 +38,8 @@
         </tfoot>
     </table>
 </div>
+ </body>
+</html>
+ {% endblock %}
 
 
-
- <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
- <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
- <script src="{% static 'js/dataTables.fixedHeader.min.js' %}"></script>
-
-<script>
-   $(document).ready(function(){
-    var table = $('#example11').DataTable({
-       orderCellsTop: true,
-       fixedHeader: true
-    });
-
-    //Creamos una fila en el head de la tabla y lo clonamos para cada columna
-    $('#example11 thead tr').clone(true).appendTo( '#example11 thead' );
-
-    $('#example11 thead tr:eq(1) th').each( function (i) {
-        var title = $(this).text(); //es el nombre de la columna
-        $(this).html( '<input type="text" placeholder="Buscar...'+title+'" />' );
-
-        $( 'input', this ).on( 'keyup change', function () {
-            if ( table.column(i).search() !== this.value ) {
-                table
-                    .column(i)
-                    .search( this.value )
-                    .draw();
-            }
-        } );
-    } );
-});
-
-
-</script>

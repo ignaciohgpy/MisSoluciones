@@ -49,6 +49,7 @@ urlpatterns = [
     path('verMiPKT/<str:pkt>', mipkt,name="mipkt"), #OK
     path('ajax/borraPa/', borraPa, name='borraPa'),
     path('ajax/poblarPaquetes/', poblarPaquetes, name='poblarPaquetes'),
+    path('ajax/borrarPaquetes/', borrarPaquetes, name='borrarPaquetes'),
     path('ajax/getPaquetes/', getPaquetes, name='getPaquetes'),
     path('ajax/BuscaTemasxLibros/', BuscaTemasxLibros, name='BuscaTemasxLibros'),
     path('ajax/BuscaProblemas/', BuscaProblemas, name='BuscaProblemas'),

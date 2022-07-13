@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>MisSoluciones</title>
+        <title>Mis Soluciones</title>
         <link href="{% static 'descarga/ccs.css' %}" rel="stylesheet" type="text/css"  />
         <link href="{% static 'descarga/fuente.css' %}" rel="stylesheet" type="text/css"  />
         <link href="{% static 'fonts/sb-bistro/sb-bistro.css' %}" rel="stylesheet" type="text/css"  />
@@ -21,13 +21,16 @@
         <link href="{% static 'packages/thumbelina/thumbelina.css' %}" rel="stylesheet" type="text/css" media="all"  />
         <link href="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.css' %}" rel="stylesheet" type="text/css" media="all"  />
         <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all"  />
-        
-        <!--link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
-        <!--link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
-        <!--link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet" type="text/css" media="all"  />
-        <!--link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" type="text/css" media="all"  /-->
-        <!--link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" type="text/css" media="all"  /-->
-        
+
+
+
+    <link href="{% static 'ccstabla/css/editor/select2.css' %}" rel="stylesheet" type="text/css"  />
+    <link href="{% static 'ccstabla/css/editor/datetimepicker.css' %}" rel="stylesheet" type="text/css"  />
+    <link href="{% static 'ccstabla/css/editor/bootstrap-editable.css' %}" rel="stylesheet" type="text/css"  />
+    <link href="{% static 'ccstabla/css/editor/x-editor-style.css' %}" rel="stylesheet" type="text/css"  />
+    <link href="{% static 'ccstabla/css/data-table/bootstrap-table.css' %}" rel="stylesheet" type="text/css"  />
+    <link href="{% static 'ccstabla/css/data-table/bootstrap-editable.css' %}" rel="stylesheet" type="text/css"  />
+    <link href="{% static 'ccstabla/css/responsive.css' %}" rel="stylesheet" type="text/css"  />
 
         
 
@@ -40,7 +43,7 @@
         <div class="container">
               <!-- Navbar Brand -->
               <a href="{% url 'index' %}" class="navbar-brand">
-              <img src="{% static 'img/logo/logo.png' %}" alt="">
+              <img src="{% static 'img/logo/missoluciones1.png' %}" alt="">
               </a>
                <!-- Toggle Button -->
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +55,20 @@
                 <li class="nav-item">
                     <a href="shop.html" class="nav-link">Comprar</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Opciones
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'consultar' %}">Bibliotecas de soluciones</a>
+
+                        <a class="dropdown-item" href="{% url 'formaPket' %}">Gestión de Paquetes</a>
+                        <a class="dropdown-item" href="{% url 'cargar' %}">Subir soluciones</a>
+                    </div>
+                  </li>
+
+
+
                 {% if au %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Mis Paquetes</a>
@@ -69,7 +86,7 @@
                     
 
                 </li>
-                {% if not request.user.is_authenticated %}
+                {% if not request.user.is_authenticated%}
                 <li class="nav-item">
                     <a href="{% url 'Milogin' %}" class="nav-link">Registro</a>
                 </li>
@@ -453,6 +470,31 @@
     <script type="text/javascript" src="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/theme.js' %}"></script>
 
+
+
+
+  <script src="{% static 'ccstabla/js/metisMenu/metisMenu.min.js' %}"></script>
+ <script src="{% static 'ccstabla/js/metisMenu/metisMenu-active.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/bootstrap-table.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/tableExport.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/data-table-active.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/bootstrap-table-editable.js' %}"></script>
+ <script src="{% static 'ccstabla/js/bootstrap.min.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/bootstrap-editable.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/bootstrap-table-resizable.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/colResizable-1.5.source.js' %}"></script>
+ <script src="{% static 'ccstabla/js/data-table/bootstrap-table-export.js' %}"></script>
+ <script src="{% static 'ccstabla/js/editable/jquery.mockjax.js' %}"></script>
+ <script src="{% static 'ccstabla/js/editable/mock-active.js' %}"></script>
+ <script src="{% static 'ccstabla/js/editable/select2.js' %}"></script>
+ <script src="{% static 'ccstabla/js/editable/moment.min.js' %}"></script>
+ <script src="{% static 'ccstabla/js/editable/bootstrap-datetimepicker.js' %}"></script>
+ <script src="{% static 'ccstabla/js/editable/bootstrap-editable.js' %}"></script>
+ <script src="{% static 'ccstabla/js/editable/xediable-active.js' %}"></script>
+ <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+ <script src="{% static 'js/popper.min.js' %}"></script>
+ <script src="{% static 'js/popper.min.js' %}"></script>
+ <script src="{% static 'js/jquery.slim.min.js' %}"></script>
   </body>
   </html>
 
