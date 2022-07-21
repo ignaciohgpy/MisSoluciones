@@ -33,6 +33,7 @@ urlpatterns = [
     path('cargar', cargar, name="cargar"), #OK
     path('contac/', contac, name="contac"), #OK
     path('formaPKT/', formaPket, name="formaPket"), #OK
+    path('error/', Tuerror, name="Tuerror"), #OK
     path('versolucion/<str:libro>/<str:numero>', versolucion,name='versolucion'), #OK
 
     path('login/', Milogin, name="Milogin"), #OK

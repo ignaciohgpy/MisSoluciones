@@ -26,19 +26,21 @@
 </div>
 
    <div class="col-8">
-  <div class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
+  <div class="landing-categories owl-carousel" >
+
     {% for u in problemas %}
-      {% if forloop.first %}
-    <div class="carousel-item active">
-        <a href="{% url 'versolucion' u.problemaID.problemaLibro  u.problemaID.problemaNumero %}"><img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="..."></a>
-    </div>
-      {% endif %}
-       <div class="carousel-item">
-        <a href="{% url 'versolucion' u.problemaID.problemaLibro  u.problemaID.problemaNumero %}"><img src="{{u.problemaID.problemaProblema.url }}" class="d-block w-100" alt="..."></a></div>
+
+
+        <div class="item">
+            <div class="card rounded-0 border-0 text-center">
+        <a href="{% url 'versolucion' u.problemaID.problemaLibro  u.problemaID.problemaNumero %}"><img src="{{u.problemaID.problemaProblema.url }}" width="250" height="250" ></a>
+        </div>
+  </div>
+
+
    {%endfor%}
 
-</div>
+
 </div>
 </div>
 </div>

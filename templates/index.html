@@ -21,9 +21,10 @@
         <link href="{% static 'packages/thumbelina/thumbelina.css' %}" rel="stylesheet" type="text/css" media="all"  />
         <link href="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.css' %}" rel="stylesheet" type="text/css" media="all"  />
         <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all"  />
-
-
-
+        <link href="{% static 'css/alertify.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'css/alertify.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
+<link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet" type="text/css" media="all"  />
+     <link href="{% static 'css/alertify.rtl.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
     <link href="{% static 'ccstabla/css/editor/select2.css' %}" rel="stylesheet" type="text/css"  />
     <link href="{% static 'ccstabla/css/editor/datetimepicker.css' %}" rel="stylesheet" type="text/css"  />
     <link href="{% static 'ccstabla/css/editor/bootstrap-editable.css' %}" rel="stylesheet" type="text/css"  />
@@ -61,9 +62,10 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'consultar' %}">Bibliotecas de soluciones</a>
-
+{% if request.user.id in listaProfe %}
                         <a class="dropdown-item" href="{% url 'formaPket' %}">Gestión de Paquetes</a>
                         <a class="dropdown-item" href="{% url 'cargar' %}">Subir soluciones</a>
+                        {% endif %}
                     </div>
                   </li>
 
@@ -104,12 +106,12 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="transaction.html">Historial de Compra</a>
                         <a class="dropdown-item" href="setting.html">Mi Perfil</a>
-                        <a class="dropdown-item" href="{% url 'logout' %}">Sallir</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Salir</a>
                     </div>
                   </li>
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-shopping-basket"></i> <span class="badge badge-primary">5</span>
+                        <i class="fa fa-shopping-basket"></i> <span id="cantidadCarro" class="badge badge-primary">0</span>
                     </a>
                     <div class="dropdown-menu shopping-cart">
                         <ul>
@@ -117,58 +119,22 @@
                                 <div class="drop-title">Compras</div>
                             </li>
                             <li>
-                                <div class="shopping-cart-list">
+                                <div class="shopping-cart-list" id="carrito">
                                     <div class="media">
-                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
-                                      
-                                        <div class="media-body">
-                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                            <p class="price">
-                                                <span class="discount text-muted">Rp. 700.000</span>
-                                                <span>Rp. 100.000</span>
-                                            </p>
-                                            <p class="text-muted">Qty: 1</p>
-                                        </div>
+
                                     </div>
-                                    <div class="media">
-                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
-                                        <div class="media-body">
-                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                            <p class="price">
-                                                <span class="discount text-muted">Rp. 700.000</span>
-                                                <span>Rp. 100.000</span>
-                                            </p>
-                                            <p class="text-muted">Qty: 1</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
-                                        <div class="media-body">
-                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                            <p class="price">
-                                                <span class="discount text-muted">Rp. 700.000</span>
-                                                <span>Rp. 100.000</span>
-                                            </p>
-                                            <p class="text-muted">Qty: 1</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <img class="d-flex mr-3" src="{% static 'img/logo/avatar.jpg' %}" width="60">
-                                        <div class="media-body">
-                                            <h5><a href="javascript:void(0)">Carrot</a></h5>
-                                            <p class="price">
-                                                <span class="discount text-muted">Rp. 700.000</span>
-                                                <span>Rp. 100.000</span>
-                                            </p>
-                                            <p class="text-muted">Qty: 1</p>
-                                        </div>
-                                    </div>
+
+
+
+
+
+
                                 </div>
                             </li>
                             <li>
-                                <div class="drop-title d-flex justify-content-between">
+                                <div id="totalcarrito" class="drop-title d-flex justify-content-between">
                                     <span>Total:</span>
-                                    <span class="text-primary"><strong>Rp. 2000.000</strong></span>
+                                    <span id="total" class="text-primary"><strong>0.00</strong></span>
                                 </div>
                             </li>
                             <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
@@ -469,8 +435,8 @@
     <script type="text/javascript" src="{% static 'packages/thumbelina/thumbelina.js' %}"></script>
     <script type="text/javascript" src="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/theme.js' %}"></script>
-
-
+    <script type="text/javascript" src="{% static 'js/alertify.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
 
 
   <script src="{% static 'ccstabla/js/metisMenu/metisMenu.min.js' %}"></script>
@@ -491,10 +457,7 @@
  <script src="{% static 'ccstabla/js/editable/bootstrap-datetimepicker.js' %}"></script>
  <script src="{% static 'ccstabla/js/editable/bootstrap-editable.js' %}"></script>
  <script src="{% static 'ccstabla/js/editable/xediable-active.js' %}"></script>
- <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
- <script src="{% static 'js/popper.min.js' %}"></script>
- <script src="{% static 'js/popper.min.js' %}"></script>
- <script src="{% static 'js/jquery.slim.min.js' %}"></script>
+
   </body>
   </html>
 

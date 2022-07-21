@@ -96,7 +96,8 @@ def promociones(request):
     data = completarPlantilla(request)
     m = 3;
     return render(request, 'promociones.html',data)
-
+def enviacorreo(correo):
+    print(correo)
 
 def LPaquetes(request,miperfil): #OK
     perfiles=perfil.objects.values()
@@ -150,8 +151,12 @@ def registro(request): #OK
 def verPaquetes(request,codigo): #ok
     paquetes = ProblemaPaq.objects.select_related('problemaID', 'paqueteID').filter(paqueteID__paqueteCod=codigo)
     paquetesUsu = UsuarioPaq.objects.filter(usuario=request.user.id, vencido=False)
-    perfiles=perfil.objects.all()
-    return render(request,"verPaquetes.html" ,{'perfiles':perfiles,'novalida':'none','paquetes':paquetes,'mispaquetes': paquetesUsu ,'estilo':"display:none"})
+    configuracion=completarPlantilla(request)
+    configuracion['novalida']='none'
+    configuracion['paquetes'] = paquetes
+    configuracion['mispaquetes'] = paquetesUsu
+    configuracion['estilo'] = "display:none"
+    return render(request,"verPaquetes.html" ,configuracion)
 @login_required(login_url='/login/') #OK
 def mipkt(request,pkt):
     request.session["pkt"]=pkt
@@ -292,6 +297,10 @@ def getProblemas(request):
     return JsonResponse(data)
 
 def index(request):
+    gente = User.objects.filter(groups__name__in=['profesores'])
+    listaProfe = []
+    for i in gente:
+        listaProfe.append(i.id)
     orden={}
 
     pket=""
@@ -310,15 +319,19 @@ def index(request):
         libro=libros.objects.get(id=int(u[i]['problemaLibro']))
         orden[libro.titulo]=u[i]['num_books']
 
-    return render(request,"index.html", {'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':orden,'total':total,'estilo':"display:none","pket":pket, "vpaq": vpaq,"temas":temas,'au':request.user.is_authenticated})
+    return render(request,"index.html", {"listaProfe":listaProfe,'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':orden,'total':total,'estilo':"display:none","pket":pket, "vpaq": vpaq,"temas":temas,'au':request.user.is_authenticated})
 
 def completarPlantilla(request):
+    gente = User.objects.filter(groups__name__in=['profesores'])
+    listaProfe= []
+    for i in gente:
+        listaProfe.append(i.id)
     paquetesUsu=UsuarioPaq.objects.filter(usuario=request.user.id,vencido=False)
     perfiles=perfil.objects.values()
     vpaq= paquetes.objects.all()
     temas=tematicas.objects.all()
     librosT=libros.objects.all()
-    configura={'au':request.user.is_authenticated,'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':librosT, "temas":temas}
+    configura={'listaProfe':listaProfe,'au':request.user.is_authenticated,'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':librosT, "temas":temas}
     return configura
 def getPaquetes(request):
     perfil=request.GET.get('perfil', None)
@@ -349,6 +362,9 @@ def contac(request):
     usuario=User.objects.get(id=request.user.id)
     comentarios.objects.create(nombre=nombre,usuario=usuario,correo=correo,tipo=tipo,comentario=comentario)
     data=completarPlantilla(request)
+    if request.method=="POST":
+        enviacorreo(correo)
+
     return render(request,"contactanos.html",data)
 def poblarPaquetes(request):
     problemas=request.GET.getlist('problemas[]', None)
@@ -360,7 +376,13 @@ def poblarPaquetes(request):
     data={'t':problemas}
     return JsonResponse(data)
 #@login_required(login_url='/login/')
-@group_required('profesores',login_url='/login/')
+def Tuerror(request):
+    mensaje={"mensaje":"lalalalal"}
+
+    configuracion=completarPlantilla(request)
+    configuracion["mensaje"]="Usted no tiene permiso para entrar a esta sección"
+    return render(request,"404.html",configuracion)
+@group_required('profesores',login_url='/error/')
 def formaPket(request):
     data=completarPlantilla(request)
     formularioPaquetes = FormularioPaquetes()
@@ -409,19 +431,25 @@ def Muestraproblemas(request):
 
     data= {'temas':list(lista)}
     return JsonResponse(data)
+@group_required('profesores',login_url='/login/')
 def cargar(request): #agrega libros
+   configuracion=completarPlantilla(request)
 
    libros1=libros.objects.all()
    perfiles=perfil.objects.all()
-   data={'formulario':Formulario(),'libros':libros1,"novalida":"none","perfiles":perfiles}
+
+   configuracion['formulario']=Formulario()
+   configuracion['libros'] = libros1
+   configuracion['novalida'] = "none"
+   configuracion['perfiles'] = perfiles
    if request.method=="POST":
        formulario=Formulario(data=request.POST, files=request.FILES)
        if formulario.is_valid():
            formulario.save()
-           data["mensaje"]="Todo OK"
+           configuracion["mensaje"]="Todo OK"
        else:
-           data["formulario"]=formulario
-   return render(request, "cargar.html" ,data)
+           configuracion["formulario"]=formulario
+   return render(request, "cargar.html" ,configuracion)
 
 def formaPketNoTrabaja(request):
     formularioPaquetes=FormularioPaquetes()
