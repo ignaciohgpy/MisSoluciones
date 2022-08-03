@@ -2,17 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37a23f61-f8e4-44e4-bc50-6662c7a88817" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/404.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/libro_Actua.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/temas_confirm_delete.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/temas_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/tematicas_Actua.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/tematicas_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MisSoluciones/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MisSoluciones/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MisSoluciones/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MisSoluciones/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Soluciones/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Soluciones/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Soluciones/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/Soluciones/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Soluciones/migrations/0002_comentarios.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Soluciones/migrations/0003_auto_20211025_1147.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Soluciones/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Soluciones/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Soluciones/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Soluciones/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/FormaPKT.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/FormaPKT.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/img/logo/avatar.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/img/logo/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/img/logo/missoluciones.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/img/logo/missoluciones1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/busquedas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/busquedas.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/contactanos.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contactanos.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/libros_confirm_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/libros_confirm_delete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/libros_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/libros_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/libros_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/libros_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/listarPaquetes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/listarPaquetes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registro.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registro.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/verMiPKT.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/verMiPKT.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/verPaquetes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/verPaquetes.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

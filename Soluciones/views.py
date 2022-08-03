@@ -1,23 +1,22 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
-
-
-
-from Soluciones.models import libros, soluciones, paquetes,tematicas,UsuarioPaq,QRPago,perfil,ProblemaPaq,User, comentarios
+from django.utils.decorators import method_decorator
+from django.contrib.auth.forms import AuthenticationForm
+from Soluciones.models import correoValidacion,libros, soluciones, paquetes,tematicas,UsuarioPaq,QRPago,perfil,ProblemaPaq,User, comentarios
 from Soluciones.forms import Formulario,FormularioPaquetes,NewUserForm
 from django.db.models import Count,Sum
 from django.views.generic import ListView
-from django.views.generic.detail import DetailView
 from django.views.generic.edit import (CreateView, UpdateView, DeleteView)
 from django.urls import reverse_lazy
+import random
 from django.contrib.auth.views import  LogoutView
 from django.contrib import messages
 from django.contrib.auth.models import User,Group
 from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
-
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from MisSoluciones.settings import EMAIL_HOST_USER
 
 import datetime as fecha
 from django.contrib.auth.decorators import login_required
@@ -44,35 +43,114 @@ def group_required(*group_names,login_url):
 def contactanos(request):
     paquetesUsu=UsuarioPaq.objects.filter(usuario=request.user.id,vencido=False)
     perfiles=perfil.objects.all()
-    return render(request,"contactanos.html" ,{'perfiles':perfiles,"mispaquetes":paquetesUsu, "novalida":"none"})
-
+    configurar=completarPlantilla(request)
+    configurar["mispaquetes"]=paquetesUsu
+    configurar["novalida"]="none"
+    return render(request,"contactanos.html" ,configurar)
+@method_decorator(group_required('profesores',login_url='/error/'), name='dispatch')
 class ListaLibros(ListView):
     template_name = "libros_list.html"
     model = libros
 
+    def get_context_data(self,**kwargs):
+        perfiles = perfil.objects.values()
+        configuracion=completarPlantilla(self.request)
+        context=super(ListaLibros,self).get_context_data(**kwargs)
+        context.update(configuracion)
+        return context
+@method_decorator(group_required('profesores',login_url='/error/'), name='dispatch')
+
+class TematicasAct(UpdateView):
+    template_name = "tematicas_Actua.html"
+    success_url = reverse_lazy('listatemas')
+    model = tematicas
+    fields = '__all__'
+
+
 
     def get_context_data(self,**kwargs):
-        context=super(ListaLibros,self).get_context_data(**kwargs)
-        context.update({'novalida':'none'})
+        perfiles = perfil.objects.values()
+        configurar = completarPlantilla(self.request)
+        context=super(TematicasAct,self).get_context_data(**kwargs)
+        context.update(configurar)
+        return context
+@method_decorator(group_required('profesores',login_url='/error/'), name='dispatch')
+
+class librosAct(UpdateView):
+    template_name = "libro_Actua.html"
+    success_url = reverse_lazy('listalibros')
+    model = libros
+    fields = '__all__'
+
+
+
+    def get_context_data(self,**kwargs):
+        perfiles = perfil.objects.values()
+        configurar = completarPlantilla(self.request)
+        context=super(librosAct,self).get_context_data(**kwargs)
+        context.update(configurar)
+        return context
+@method_decorator(group_required('profesores', login_url='/error/'), name='dispatch')
+
+
+
+class Tematicas(ListView):
+        template_name = "tematicas_list.html"
+        model = tematicas
+
+
+
+        def get_context_data(self, **kwargs):
+            perfiles = perfil.objects.values()
+            configurar = completarPlantilla(self.request)
+            context = super(Tematicas, self).get_context_data(**kwargs)
+            context.update(configurar)
+            return context
+@method_decorator(group_required('profesores',login_url='/error/'), name='dispatch')
+
+class CreaTemas(CreateView):
+    model = tematicas
+    template_name = "temas_form.html"
+    success_url = reverse_lazy('listatemas')
+    fields = "__all__"
+
+
+
+    def get_context_data(self,**kwargs):
+        perfiles = perfil.objects.values()
+        context=super(CreaTemas,self).get_context_data(**kwargs)
+        context.update({'novalida':'none','perfiles':perfiles})
         return context
 
+@method_decorator(group_required('profesores',login_url='/error/'), name='dispatch')
 class CreaLibro(CreateView):
     model = libros
     template_name = "libros_form.html"
     success_url = reverse_lazy('listalibros')
-    fields = ['titulo', 'perfilId']
+    fields = "__all__"
     def get_context_data(self,**kwargs):
+        perfiles = perfil.objects.values()
         context=super(CreaLibro,self).get_context_data(**kwargs)
-        context.update({'novalida':'none'})
+        context.update({'novalida':'none','perfiles':perfiles})
         return context
+@method_decorator(group_required('profesores',login_url='/error/'), name='dispatch')
 class BorraLibro(DeleteView):
     model = libros
     success_url = reverse_lazy('listalibros')
     def get_context_data(self,**kwargs):
+        perfiles = perfil.objects.values()
         context=super(BorraLibro,self).get_context_data(**kwargs)
-        context.update({'novalida':'none'})
+        context.update({'novalida':'none','perfiles':perfiles})
         return context
-
+@method_decorator(group_required('profesores',login_url='/error/'), name='dispatch')
+class BorraTemas(DeleteView):
+    model = tematicas
+    success_url = reverse_lazy('listatemas')
+    def get_context_data(self,**kwargs):
+        perfiles = perfil.objects.values()
+        context=super(BorraTemas,self).get_context_data(**kwargs)
+        context.update({'novalida':'none','perfiles':perfiles})
+        return context
 def vencimiento():
     QActivos= UsuarioPaq.objects.select_related().filter(activo=True)
     while True:
@@ -96,8 +174,33 @@ def promociones(request):
     data = completarPlantilla(request)
     m = 3;
     return render(request, 'promociones.html',data)
-def enviacorreo(correo):
-    print(correo)
+def enviacorreo(Asunto,comentario,correo,origen):
+
+        if origen=='contactanos':
+            email =  EmailMessage(Asunto,comentario,EMAIL_HOST_USER,[correo])
+            email.send()
+
+def enviacorreoValidar(request):
+        correo=request.GET.get('correo',None)
+        codigo=random.randint(10000, 20000)
+
+
+        try:
+            email = EmailMessage('Registro a MisSoluciones', 'Su código de Validacion es {0}'.format(codigo), EMAIL_HOST_USER, [correo])
+            email.send()
+            correoValidacion.objects.create(correo=correo, codigo=codigo, validado=False)
+            data={'mensaje':'El codigo ha sido enviado a {0}'.format(correo)}
+        except:
+
+            data={'mensaje':'Error al enviar correo a {0}'.format(correo)}
+
+        return JsonResponse(data)
+
+
+
+
+
+
 
 def LPaquetes(request,miperfil): #OK
     perfiles=perfil.objects.values()
@@ -136,15 +239,24 @@ def logout(request): #OK
     return redirect('/')
 
 def registro(request): #OK
-    data={'form':NewUserForm()}
+    data={'form':NewUserForm(),'msj':'Ha ocurrido un problema, Intentelo nuevamente'}
+    correo=request.POST.get('email')
+    codigo = request.POST.get('codigo')
+    try:
+        codigoBD=correoValidacion.objects.get(correo=correo)
+    except correoValidacion.DoesNotExist:
+        print(f"No existe el registro con ")
+
+
     if request.method=='POST':
         formulario=NewUserForm(data=request.POST)
-        if formulario.is_valid():
+
+        if formulario.is_valid() and int(codigoBD.codigo)==int(codigo):
             formulario.save()
             user=authenticate(username=formulario.cleaned_data['username'],password=formulario.cleaned_data['password1'])
             login(request,user)
             return redirect('index')
-
+    data['msj']='Ha Ocurrido un erro'
     return render(request, "registro.html", data)
 
 
@@ -298,6 +410,7 @@ def getProblemas(request):
 
 def index(request):
     gente = User.objects.filter(groups__name__in=['profesores'])
+    var = True
     listaProfe = []
     for i in gente:
         listaProfe.append(i.id)
@@ -319,7 +432,7 @@ def index(request):
         libro=libros.objects.get(id=int(u[i]['problemaLibro']))
         orden[libro.titulo]=u[i]['num_books']
 
-    return render(request,"index.html", {"listaProfe":listaProfe,'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':orden,'total':total,'estilo':"display:none","pket":pket, "vpaq": vpaq,"temas":temas,'au':request.user.is_authenticated})
+    return render(request,"index.html", {"var":var,"listaProfe":listaProfe,'novalida':'none','perfiles':perfiles,'mispaquetes':paquetesUsu,'libros':orden,'total':total,'estilo':"display:none","pket":pket, "vpaq": vpaq,"temas":temas,'au':request.user.is_authenticated})
 
 def completarPlantilla(request):
     gente = User.objects.filter(groups__name__in=['profesores'])
@@ -359,11 +472,13 @@ def contac(request):
     correo=request.POST.get("email")
     tipo=request.POST.get("subject")
     comentario=request.POST.get("message")
-    usuario=User.objects.get(id=request.user.id)
-    comentarios.objects.create(nombre=nombre,usuario=usuario,correo=correo,tipo=tipo,comentario=comentario)
+    if request.user.is_authenticated:
+        usuario=User.objects.get(id=request.user.id)
+        comentarios.objects.create(nombre=nombre,usuario=usuario,correo=correo,tipo=tipo,comentario=comentario)
     data=completarPlantilla(request)
     if request.method=="POST":
-        enviacorreo(correo)
+        correo='misoluciones22@yandex.com'
+        enviacorreo(tipo,comentario,correo,'contactanos')
 
     return render(request,"contactanos.html",data)
 def poblarPaquetes(request):

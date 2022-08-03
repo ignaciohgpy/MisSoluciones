@@ -39,12 +39,12 @@
 
   <body>
     <div class="page-header">
-      <!--=============== Navbar ===============-->
-      <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-transparent" id="page-navigation">
-        <div class="container">
+        <!--=============== Navbar ===============-->
+      <nav  class="navbar fixed-top navbar-expand-md " id="page-navigation">
+        <div class="container" >
               <!-- Navbar Brand -->
               <a href="{% url 'index' %}" class="navbar-brand">
-              <img src="{% static 'img/logo/missoluciones1.png' %}" alt="">
+              <img src="{% static 'img/logo/missoluciones11.png' %}" alt="">
               </a>
                <!-- Toggle Button -->
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,8 +53,26 @@
               <div class="collapse navbar-collapse" id="navbarcollapse">
               <!-- Navbar Menu -->
               <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a href="shop.html" class="nav-link">Comprar</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Comprar
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                       <a class="dropdown-item" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" href="">Categorias Ejercicios</a>
+                         <ul class="dropdown-menu multi-level" aria-labelledby="navbarDropdownMenulink">
+                             {% for u in perfiles %}
+                             <li class="dropdown-submenu" ><a href="{% url 'LPaquetes' u.nombrePerfil %}" class="dropdown-item">{{u.nombrePerfil}}</a></li>
+                             {% endfor %}
+                         </ul>
+
+
+                        <a class="dropdown-item" href="">Libros</a>
+                        <a class="dropdown-item" href="">Encuentros</a>
+
+                    </div>
+                  </li>
+
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,9 +80,14 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'consultar' %}">Bibliotecas de soluciones</a>
+
 {% if request.user.id in listaProfe %}
+                        <a class="dropdown-item" href="{% url 'listatemas' %}">Gestión de Temas</a>
                         <a class="dropdown-item" href="{% url 'formaPket' %}">Gestión de Paquetes</a>
                         <a class="dropdown-item" href="{% url 'cargar' %}">Subir soluciones</a>
+                        {% endif %}
+                        {% if request.user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'listalibros' %}">Gestión libros o Guías</a>
                         {% endif %}
                     </div>
                   </li>
@@ -90,7 +113,7 @@
                 </li>
                 {% if not request.user.is_authenticated%}
                 <li class="nav-item">
-                    <a href="{% url 'Milogin' %}" class="nav-link">Registro</a>
+                    <a href="{% url 'registro' %}" class="nav-link">Registro</a>
                 </li>
                 {% endif%}
                 {% if not request.user.is_authenticated %}
@@ -151,7 +174,8 @@
     </div>
 
     <div id="page-content" class="page-content">
-      <div class="banner">
+       {% if var%}
+        <div class="banner">
           <div class="jumbotron jumbotron-video text-center bg-dark mb-0 rounded-0">
               <video width="100%" preload="auto" loop autoplay muted>
                   <source src="{% static 'media/explore.mp4' %}" type='video/mp4' />
@@ -215,7 +239,7 @@
                                       Comunidad Cientifíca
                                   </h4>
                                   <p class="card-text">
-                                      Puede formar del Claustro de profesores de este proyecto innovador, sus soluciones pueden ser vista por toda la Comunidad.
+                                      Puede formar parte del Claustro de profesores de este proyecto innovador, sus soluciones pueden ser vista por toda la Comunidad.
                                   </p>
                               </div>
                           </div>
@@ -223,9 +247,12 @@
                   </div>
               </div>
           </div>
+
       </div>
-      {% block contenido %}
-      {% endblock %}
+        {% endif %}
+        {% block contenido %}
+        {% endblock %}
+
       <section id="why">
           <h2 class="title">NUESTROS SERVICIOS</h2>
           <div class="container">
@@ -331,24 +358,8 @@
                       </div>
                   </div>
               </div>
-              <div class="item">
-                  <div class="card rounded-0 border-0 text-center">
-                    <img src="{% static 'img/FC-auto.jpg' %}">
-                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                          <!-- <h4 class="card-title">Frozen Foods</h4> -->
-                          <a href="{% url 'LPaquetes' perfiles.0.nombrePerfil %}" class="btn btn-primary btn-lg">FUNDAMENTOS DE LAS COMUNICACIONES</a>
-                      </div>
-                  </div>
-              </div>
-              <div class="item">
-                  <div class="card rounded-0 border-0 text-center">
-                      <img src="{% static 'img/PackagesGraphic.jpg' %}">
-                      <div class="card-img-overlay d-flex align-items-center justify-content-center">
-                          <!-- <h4 class="card-title">Package</h4> -->
-                          <a href="shop.html" class="btn btn-primary btn-lg">PAQUETES</a>
-                      </div>
-                  </div>
-              </div>
+
+
           </div>
       </section>
   </div>

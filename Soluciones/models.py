@@ -8,17 +8,24 @@ class perfil(models.Model):
         return '%s'%(self.nombrePerfil)
 
 class tematicas(models.Model):
-    temaNombre=models.CharField(max_length=50, null=True)
-    perfilId=models.ForeignKey(perfil,on_delete=models.CASCADE,null=True)
+    temaNombre=models.CharField(max_length=50, null=True,verbose_name='Nombre del Tema')
+    perfilId=models.ForeignKey(perfil,on_delete=models.CASCADE,null=True,verbose_name='Perfil')
+    agregadoPor = models.IntegerField(null=True)
     def __str__(self):
         return '%s'%(self.temaNombre)
 
 class libros(models.Model):
 
-    titulo=models.CharField(max_length = 50)
-    perfilId=models.ForeignKey(perfil,on_delete=models.CASCADE,null=True)
+    titulo=models.CharField(max_length = 50,null=True,verbose_name="Título" )
+    autor=models.CharField(max_length = 50,null=True,verbose_name="Autor" )
+    edicion=models.CharField(max_length = 50,null=True,verbose_name="Edición" )
+    perfilId=models.ForeignKey(perfil,on_delete=models.CASCADE,null=True,verbose_name="Perfil" )
     def __str__(self):
         return self.titulo
+class correoValidacion(models.Model):
+    correo=models.EmailField()
+    codigo=models.IntegerField()
+    validado=models.BooleanField()
 
 class comentarios(models.Model):
     comentario=models.TextField(max_length = 50)
@@ -26,6 +33,8 @@ class comentarios(models.Model):
     tipo=models.CharField(max_length = 50)
     usuario=models.ForeignKey(User, on_delete=models.CASCADE)
     nombre=models.CharField(null=True,max_length = 50)
+    respuesta=models.TextField(null=True,max_length = 150)
+    responsable=models.IntegerField(null=True)
 class solucionadores(models.Model):
     solucionadorNombre=models.CharField(max_length = 50)
     solucionadorPais=models.CharField(max_length = 50)

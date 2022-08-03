@@ -19,12 +19,15 @@
         <link href="{% static 'packages/thumbelina/thumbelina.css' %}" rel="stylesheet" type="text/css" media="all"  />
         <link href="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.css' %}" rel="stylesheet" type="text/css" media="all"  />
         <link href="{% static 'css/theme.css' %}" rel="stylesheet" type="text/css" media="all"  />
-
+        <link href="{% static 'css/alertify.css' %}" rel="stylesheet" type="text/css" media="all"  />
+        <link href="{% static 'css/alertify.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
+<link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet" type="text/css" media="all"  />
+     <link href="{% static 'css/alertify.rtl.min.css' %}" rel="stylesheet" type="text/css" media="all"  />
 </head>
 <body>
 <div id="page-content" class="page-content">
     <div class="banner">
-        <div class="jumbotron jumbotron-bg text-center rounded-0" style="background-image: url('{% static "img/logo/test1.jpg" %}');">
+        <div class="jumbotron jumbotron-bg text-center rounded-0" style="background-image: url('{% static "img/logo/3862130.jpg" %}');">
             <div class="container">
                 <h1 class="pt-5">
                     Página de Registro
@@ -32,6 +35,9 @@
                 <p class="lead">
                     Únete a nuestra Comunidad
                 </p>
+                <div id='espera' style="display: none" class="spinner-border text-primary" role="status">
+  <span class="sr-only">Enviando....</span>
+</div>
 
                 <div class="card card-login mb-5">
                     <div class="card-body">
@@ -44,13 +50,13 @@
 
                             <div class="form-group row mt-3">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="text" name="first name" required="" placeholder="Apellido 1">
+                                    <input class="form-control" type="text" name="first_name" required="" placeholder="Apellido 1">
                                 </div>
                             </div>
 
                             <div class="form-group row mt-3">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="text" name="last name" required="" placeholder="Apellido 2">
+                                    <input class="form-control" type="text" name="last_name" required="" placeholder="Apellido 2">
                                 </div>
                             </div>
 
@@ -68,15 +74,19 @@
 
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="email" name="correo" required="" placeholder="Email">
+                                    <input id='correo' class="form-control" type="email" onblur="envioCorreo()" name="email" required="" placeholder="Email">
                                 </div>
                             </div>
-
+                           <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input id="codigo" onchange="validacion()" class="form-control" type="text" name="codigo" required="" placeholder="Código de verificación">
+                                </div>
+                            </div>
 
                             
                             <div class="form-group row text-center mt-4">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary btn-block text-uppercase">Registrar</button>
+                                    <button id="manda" type="submit" disabled class="btn btn-primary btn-block text-uppercase" >Registrar</button>
                                 </div>
                             </div>
                         </form>
@@ -88,7 +98,42 @@
 </div>
 
 </body>
+<script>
+    function validacion(){
+    var codigo=$('#codigo').val()
 
+    if (codigo.length==5){
+    $('#manda').prop('disabled', false);
+    }
+
+    }
+</script>
+<script>
+    function envioCorreo(){
+    var correo=$('#correo').val()
+
+    alert('Se ha enviado un correo con un código. Presione Aceptar, y ubíquese en el cuadro de texto más abajo, mientras espera mensaje de correo.');
+    $('#espera').css('display','');
+
+$.ajax({
+        url: '{% url "enviacorreoValidar" %}',
+        data: {
+          'correo': correo,
+          'origen':'codigo'
+
+        },
+        dataType: 'json',
+        success: function (data) {
+            alert(data.mensaje)
+            $('#espera').css('display','none');
+
+	}
+
+}
+          )
+
+    }
+</script>
 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery-migrate.js' %}"></script>
 <script type="text/javascript" src="{% static 'packages/bootstrap/libraries/popper.js' %}"></script>
@@ -99,4 +144,6 @@
 <script type="text/javascript" src="{% static 'packages/thumbelina/thumbelina.js' %}"></script>
 <script type="text/javascript" src="{% static 'packages/bootstrap-touchspin/bootstrap-touchspin.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/theme.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/alertify.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/alertify.min.js' %}"></script>
 </html>

@@ -6,8 +6,13 @@
   <p>Agregue el Tema del cual resolverá problemas</p>
  </div>
     </div>
-<div class="alert alert-danger" role="alert">
-  <h1>{{ mensaje }}</h1>
-</div>
+<div class="mx-auto border" style="width: 900px;" >
+<form  method="post">{% csrf_token %}
 
-{% endblock %}
+{{form.as_table}}
+
+
+<input type="submit" value="Guardar" class="btn btn-primary"/>
+</form>
+     </div>
+{% endblock  %}
