@@ -33,7 +33,7 @@
         <th>{{u.paqueteDias }}</th>
         <td>{{ u.paqueteDescr}}</td>
         {% if request.user.is_authenticated %}
-        <td><button value={{u.paquetePrecio}} id={{u.paqueteCod}} name={{u.paquetePrecio}} class="btn btn-warning" onclick="agregarCarro(this)" >Comprar</button></td>
+        <td><button value={{u.paquetePrecio}} id={{u.paqueteCod}} name={{u.paquetePrecio}} class="btn btn-warning" onclick="agregarCarro(this)" >Adquirir</button></td>
         {%endif%}
         <td><a   class="btn btn-success " href="{% url 'verPaquetes' u.paqueteCod %}" >Ver</a></td>
       </tr>
@@ -84,7 +84,7 @@
       var divs = document.getElementsByClassName("media").length;
       cantidacompra=parseInt(divs)-1
       $("#cantidadCarro").text(cantidacompra);
-      alertify.error("Paquete adicionado al carro");
+      alertify.success("Paquete adicionado al carro");
 
 
 

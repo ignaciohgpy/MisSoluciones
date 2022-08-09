@@ -28,12 +28,14 @@
     <div class="col-xs-4">
         <label for="libros">Selecione un Libro:</label>
         <select class="form-control" id="libros" onchange="BuscaT()">
+            <option></option>
         {% for i in libros %}
         <option>{{i.titulo}}</option>
         {% endfor %}
         </select>
     <label for="temas">Selecione un Tema :</label>
     <select multiple class="form-control" id="temas" onclick="BuscaP()">
+
            </select>
 
     <label for="temas">Seleccione los Problemas que formararán parte del paquete:</label>

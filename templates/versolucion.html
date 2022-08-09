@@ -1,6 +1,11 @@
 {% extends 'index.html' %}
 {% block contenido %}
-
+<div  style="height: 20px" class="jumbotron">
+<div style="margin-left:auto;margin-right: auto;">
+  <br>
+  <p>Paquete  de {{pkt}}</p>
+ </div>
+</div>
 
  <br>
 <div>
@@ -11,8 +16,8 @@
 
 <div class="row" style="width: 100%;height: 100%" >
 
-  <div class="col-md-8" >
-        <embed src="{{solucion.problemaSolucion.url}}" style="width: 100%;height: 100%"></embed>
+  <div class="col-md-8"  >
+        <embed src="{{solucion.problemaSolucion.url}}" width="100%" height="600px" ></embed>
   </div>
 
 <div class="col-md-4">

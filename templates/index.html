@@ -75,7 +75,7 @@
 
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         Opciones
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -98,7 +98,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Mis Paquetes</a>
 
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div id='mispaquetes' class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                         {% for u in mispaquetes %}
                         <a class="dropdown-item" href="{% url 'mipkt' u.paqueteMio %}">{{u.paqueteMio}}</a>
@@ -161,8 +161,8 @@
                                 </div>
                             </li>
                             <li class="d-flex justify-content-between pl-3 pr-3 pt-3">
-                                <a href="cart.html" class="btn btn-secondary">View Cart</a>
-                                <a href="checkout.html" class="btn btn-primary">Checkout</a>
+
+                                <button onclick="Pagar()" class="btn btn-primary">Habilitar</button>
                             </li>
                         </ul>
                     </div>
@@ -174,9 +174,10 @@
     </div>
 
     <div id="page-content" class="page-content">
-       {% if var%}
+
         <div class="banner">
           <div class="jumbotron jumbotron-video text-center bg-dark mb-0 rounded-0">
+              {% if var%}
               <video width="100%" preload="auto" loop autoplay muted>
                   <source src="{% static 'media/explore.mp4' %}" type='video/mp4' />
                   <source src="{% static 'media/explore.webm' %}" type='video/webm' />
@@ -246,10 +247,11 @@
                       </div>
                   </div>
               </div>
+              {% endif %}
           </div>
 
       </div>
-        {% endif %}
+
         {% block contenido %}
         {% endblock %}
 
@@ -386,7 +388,7 @@
                         <a href="javascript:void(0)">Como es nuestro trabajo</a>
                     </li>
                     <li>
-                        <a href="terms.html">Términos</a>
+                        <a href="{%url 'terminos'%}">Términos</a>
                     </li>
                     <li>
                         <a href="privacy.html">Política de Privacidad</a>
@@ -434,7 +436,40 @@
     </div>
     <p class="copyright">&copy; 2022 Soluciones | Estudio Online. Derechos Reservados.</p>
 </footer>
+<script>
+    function Pagar() {
+    var todo=document.getElementsByClassName("media");
+    var ids=[]
+    for (i = 0; i < todo.length; i++){
+    ids[i]=todo[i].id
+    if (todo[i].id!==''){
+    const ref='/verMiPKT/'+todo[i].id
 
+
+    $("#mispaquetes").append('<a class="dropdown-item" href='+ref+'>'+todo[i].id+'</a>')
+    }
+    }
+    $.ajax({
+        url: '{% url "compraPKT" %}',
+        data: {
+
+          'lista': ids,
+
+
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data) {
+
+              alertify.success(data.sms);
+
+
+
+}
+          }
+        })
+    }
+</script>
 
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-migrate.js' %}"></script>

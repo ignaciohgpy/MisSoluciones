@@ -60,16 +60,17 @@
 
                     <div class="card card-login mb-5">
                         <div class="card-body">
+                             <div style="color:#800080" id="demo"></div>
                             <ul class="messages">
                             <form class="form-horizontal" action="" method="post"> {% csrf_token %}
                                 <div class="form-group row mt-3">
                                     <div class="col-md-12">
-                                        <input class="form-control" type="text" required="" placeholder="Username" name="username">
+                                        <input id="username" onkeyup="letras(this.value)" class="form-control" type="text" required="" placeholder="Usuario" name="username">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-12">
-                                        <input class="form-control" type="password" required="" placeholder="Password" name="password">
+                                        <input class="form-control" type="password" required="" placeholder="Contraseña" name="password">
                                     </div>
                                 </div>
                                
@@ -160,10 +161,22 @@
                 </div>
             </div>
         </div>
-        <p class="copyright">&copy; 2022 Soluciones | Estudio Online. Derechos Reservados.</p>
+        <p class="copyright">&copy; 2022 MisSoluciones | Estudio Online. Derechos Reservados.</p>
     </footer>
-
-	
+<script>
+	function letras(texto){
+  var letras1=sonLetrasSolamente(texto)
+  if (letras1==false){
+  document.getElementById("demo").innerHTML = 'Son letras solamente' ;
+  document.getElementById("username").value = '' ;
+}
+else{document.getElementById("demo").innerHTML = '' ;}
+}
+function sonLetrasSolamente(texto){
+  var regex = /^[a-zA-Z]+$/;
+  return regex.test(texto);
+}
+ </script>
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-migrate.js' %}"></script>
     <script type="text/javascript" src="{% static 'packages/bootstrap/libraries/popper.js' %}"></script>

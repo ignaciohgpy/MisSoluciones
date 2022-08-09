@@ -66,6 +66,7 @@ urlpatterns = [
     path('ajax/TranferMovil/', TranferMovil, name='TranferMovil'),
     path('TranferMovil/<str:pkt>/<str:usuario>', TranferMovil, name='TranferMovil'),
     path('contactanos/', contactanos,name="contactanos"),
+    path('terminos/', terminos, name="terminos"),
     path('team/', team,name="team"),
     path('ajax/creaCodigo/', Creacodigo, name='Creacodigo'),
     path('promociones/', promociones,name="promociones"),

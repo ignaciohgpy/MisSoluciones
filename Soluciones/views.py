@@ -186,10 +186,14 @@ def enviacorreoValidar(request):
 
 
         try:
-            email = EmailMessage('Registro a MisSoluciones', 'Su código de Validacion es {0}'.format(codigo), EMAIL_HOST_USER, [correo])
-            email.send()
-            correoValidacion.objects.create(correo=correo, codigo=codigo, validado=False)
-            data={'mensaje':'El codigo ha sido enviado a {0}'.format(correo)}
+            if User.objects.filter(email=correo).exists():
+
+                data = {'mensaje': 'El siguiente correo {0} existe'.format(correo)}
+            else:
+                email = EmailMessage('Registro a MisSoluciones', 'Su código de Validacion es {0}'.format(codigo), EMAIL_HOST_USER, [correo])
+                email.send()
+                correoValidacion.objects.create(correo=correo, codigo=codigo, validado=False)
+                data={'mensaje':'El codigo ha sido enviado a {0}'.format(correo)}
         except:
 
             data={'mensaje':'Error al enviar correo a {0}'.format(correo)}
@@ -204,10 +208,14 @@ def enviacorreoValidar(request):
 
 def LPaquetes(request,miperfil): #OK
     perfiles=perfil.objects.values()
-    
+    gente = User.objects.filter(groups__name__in=['profesores'])
+    listaProfe = []
+    for i in gente:
+        listaProfe.append(i.id)
     paquetesUsu = UsuarioPaq.objects.filter(usuario=request.user.id, vencido=False)
     paquete=paquetes.objects.select_related('paquetePerfil').filter(paquetePerfil__nombrePerfil=miperfil)
-    datos={'perfil':miperfil,'novalida':"none","paquetes":paquete,'perfiles':perfiles,'mispaquetes':paquetesUsu,'estilo':"display:none"}
+    datos={'listaProfe':listaProfe,'au': request.user.is_authenticated,'perfil':miperfil,'novalida':"none","paquetes":paquete,'perfiles':perfiles,'mispaquetes':paquetesUsu,'estilo':"display:none"}
+
 
     return render(request, 'listarPaquetes.html',datos )
 
@@ -258,7 +266,9 @@ def registro(request): #OK
             return redirect('index')
     data['msj']='Ha Ocurrido un erro'
     return render(request, "registro.html", data)
+def terminos(request):
 
+    return render(request,"terminos.html",completarPlantilla(request))
 
 def verPaquetes(request,codigo): #ok
     paquetes = ProblemaPaq.objects.select_related('problemaID', 'paqueteID').filter(paqueteID__paqueteCod=codigo)
@@ -272,13 +282,22 @@ def verPaquetes(request,codigo): #ok
 @login_required(login_url='/login/') #OK
 def mipkt(request,pkt):
     request.session["pkt"]=pkt
-
+    gente = User.objects.filter(groups__name__in=['profesores'])
+    listaProfe = []
+    for i in gente:
+        listaProfe.append(i.id)
     perfiles1=perfil.objects.all()
     paquetesUsu = UsuarioPaq.objects.filter(usuario=request.user.id, paqueteMio=paquetes.objects.get(paqueteCod=pkt))
     if len(paquetesUsu) !=0 :
         problemas=ProblemaPaq.objects.select_related("paqueteID","problemaID").filter(paqueteID__paqueteCod=pkt)
         mispaquetes= UsuarioPaq.objects.filter(usuario=request.user.id)
-        return render(request, "verMiPKT.html", {"au":request.user.is_authenticated,"perfiles":perfiles1,'novalida':'none','pkt': pkt, 'mispaquetes': mispaquetes, 'problemas': problemas,'estilo':"display:none"})
+        configura=completarPlantilla(request)
+        configura['pkt']=pkt
+        configura['problemas'] = problemas
+        configura['mispaquetes'] = mispaquetes
+        configura['listaProfe'] = listaProfe
+
+        return render(request, "verMiPKT.html", configura)
     else:
         redirect('index')
 
@@ -342,24 +361,25 @@ def versolucion(request,libro, numero):
 
 
 def compraPKT(request): #OK
-    
-    codigo=request.GET.get('codigo', None)
-    usuarioID=int(request.user.id)
-    fecha1=fecha.date.today()
-    puede=UsuarioPaq.objects.filter(usuario=usuarioID,paqueteMio=paquetes.objects.get(paqueteCod=codigo))
-    if len(puede)!=0:
-        tema="Ya usted tiene ese paquete"
-        tipo=1
-    else:
-        try:
-            UsuarioPaq.objects.create(usuario=usuarioID, fechaIni= fecha1, paqueteMio=paquetes.objects.get(paqueteCod=codigo),activo="False")
-            tema="Ha adquirido un paquete"
-            tipo=2
+    lista=request.GET.getlist('lista[]', None)
+    lista1=[]
+    utilizados=[]
+    for y in lista:
+        if y not in lista1 and y != '':
+            lista1.append(y)
+    usuarioID = int(request.user.id)
+    fecha1 = fecha.date.today()
+    for  u in lista1:
+        puede = UsuarioPaq.objects.filter(usuario=usuarioID, paqueteMio=paquetes.objects.get(paqueteCod=u),activo=True)
 
-        except:
-            tema="Ha ocurrido un error"
-            tipo=1
-    data = {'sms': tema,'tipo':tipo}
+        if len(puede)==0:
+            UsuarioPaq.objects.create(usuario=usuarioID, fechaIni=fecha1,paqueteMio=paquetes.objects.get(paqueteCod=u), activo=True)
+
+        else:
+            utilizados.append(u)
+
+
+    data={'utilizados':list(utilizados),'sms':'Compra registrada'}
     return JsonResponse(data)
 
 def borrarPaquetes(request):

@@ -41,22 +41,24 @@
 
                 <div class="card card-login mb-5">
                     <div class="card-body">
+                        <div style="color:#800080" id="demo"></div>
                         <form class="form-horizontal" action="" method="post"> {% csrf_token %}
                             <div class="form-group row mt-3">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="text" name="username" required="" placeholder="Usuario">
+                                    <input id='username' onkeyup="letras(this.value)" class="form-control" type="text" name="username" required="" placeholder="Usuario, es requerido">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row mt-3">
+                                <div class="col-md-12">
+                                    <input id='username1' onkeyup="letras(this.value)" class="form-control" type="text" name="first_name" required="" placeholder="Primer Apellido, es requerido">
                                 </div>
                             </div>
 
                             <div class="form-group row mt-3">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="text" name="first_name" required="" placeholder="Apellido 1">
-                                </div>
-                            </div>
-
-                            <div class="form-group row mt-3">
-                                <div class="col-md-12">
-                                    <input class="form-control" type="text" name="last_name" required="" placeholder="Apellido 2">
+                                    <input onkeyup="letras(this.value)" class="form-control" type="text" name="last_name" required="" placeholder="Segundo apellido, es requerido">
                                 </div>
                             </div>
 
@@ -79,8 +81,9 @@
                             </div>
                            <div class="form-group row">
                                 <div class="col-md-12">
-                                    <input id="codigo" onchange="validacion()" class="form-control" type="text" name="codigo" required="" placeholder="Código de verificación">
+                                    <input id="codigo" onkeyup="numeros(this.value)" class="form-control" type="text" name="codigo" required="" placeholder="Código de verificación">
                                 </div>
+
                             </div>
 
                             
@@ -99,15 +102,49 @@
 
 </body>
 <script>
-    function validacion(){
-    var codigo=$('#codigo').val()
+function letras(texto){
+  var letras1=sonLetrasSolamente(texto)
+  if (letras1==false){
+  document.getElementById("demo").innerHTML = 'Son letras solamente' ;
+  document.getElementById("username").value = '' ;
+}
+else{document.getElementById("demo").innerHTML = '' ;}
+}
+function sonLetrasSolamente(texto){
+  var regex = /^[a-zA-Z]+$/;
+  return regex.test(texto);
+}
+ </script>
+<script>
+function numeros(texto){
 
-    if (codigo.length==5){
+
+
+  var letras1=sonNumerosSolamente(texto)
+  if (letras1==false){
+  document.getElementById("demo").innerHTML = 'Son números solamente' ;
+ document.getElementById("codigo").value = '' ;
+}
+else{document.getElementById("demo").innerHTML = ''
+if (texto.length==5){
+
     $('#manda').prop('disabled', false);
-    }
+    }else{ $('#manda').prop('disabled', true);}
+}
+}
 
-    }
-</script>
+
+function sonNumerosSolamente(texto){
+  var regex = /^[0-9]+$/;
+
+  return regex.test(texto);
+}
+
+
+ </script>
+
+
+
 <script>
     function envioCorreo(){
     var correo=$('#correo').val()
@@ -134,6 +171,7 @@ $.ajax({
 
     }
 </script>
+
 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery-migrate.js' %}"></script>
 <script type="text/javascript" src="{% static 'packages/bootstrap/libraries/popper.js' %}"></script>
